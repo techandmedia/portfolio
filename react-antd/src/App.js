@@ -1,18 +1,31 @@
 import React from "react";
-import { Spin, Alert } from "antd";
+import { Row, Col } from "antd";
+import CreateCompany from "./Form/CreateCompany";
+import CreateOffice from './Form/CreateOffice'
+import "./App.css";
 
 function App() {
   return (
-    <Spin tip="Loading...">
-      <h1 style={{ textAlign: "center", marginBottom: 50, marginTop: 20 }}>
-        A scaffolding React with react-app-rewired
-      </h1>
-      <Alert
-        message="Alert message title"
-        description="Further details about the context of this alert."
-        type="info"
-      />
-    </Spin>
+    <React.Fragment>
+      <h2
+        style={{
+          fontWeight: 500,
+          textAlign: "center",
+          marginTop: 30,
+          marginBottom: -10
+        }}
+      >
+        COMPANY INFORMATION MANAGEMENT FORM
+      </h2>
+      <Row>
+        <Col md={{ span: 8, offset: 4 }}>
+          <CreateCompany />
+        </Col>
+        <Col md={{ span: 8, offset: 0 }}>
+          <CreateOffice />
+        </Col>
+      </Row>
+    </React.Fragment>
   );
 }
 
