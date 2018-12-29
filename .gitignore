@@ -1,0 +1,48 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Project Chart #
+# dependencies
+project-chart/node_modules
+project-chart/.pnp
+project-chart/.pnp.js
+
+# testing
+project-chart/coverage
+
+# production
+project-chart/build
+
+# misc
+project-chart/.DS_Store
+project-chart/.env.local
+project-chart/.env.development.local
+project-chart/.env.test.local
+project-chart/.env.production.local
+
+project-chart/npm-debug.log*
+project-chart/yarn-debug.log*
+project-chart/yarn-error.log*
+
+# =========================================
+# React antd #
+# dependencies
+react-antd/node_modules
+react-antd/.pnp
+react-antd/.pnp.js
+
+# testing
+react-antd/coverage
+
+# production
+react-antd/build
+
+# misc
+react-antd/.DS_Store
+react-antd/.env.local
+react-antd/.env.development.local
+react-antd/.env.test.local
+react-antd/.env.production.local
+
+react-antd/npm-debug.log*
+react-antd/yarn-debug.log*
+react-antd/yarn-error.log*

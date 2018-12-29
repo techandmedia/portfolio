@@ -1,0 +1,8 @@
+{
+  "name": "generic-api-server",
+  "version": "1.0.0",
+  "description": "General Purpose API Server for Testing and Production",
+  "main": "server.js",
+  "author": "techandmedia <eko.andri@icloud.com>",
+  "license": "MIT"
+}

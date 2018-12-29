@@ -1,0 +1,23 @@
+.company-list {
+  list-style-type: none;
+  position: fixed;
+  left: -30px;
+  top: 150px;
+  z-index: 99; 
+}
+
+.company-list > li > span {
+  cursor: pointer;
+}
+
+.company-list > li > span:hover {
+  color: blue;
+  font-weight: bold
+}
+
+h1 {
+  color: blueviolet;
+  z-index: 99;
+  position: fixed;
+  left: 100px;
+}
