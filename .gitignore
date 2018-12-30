@@ -46,3 +46,7 @@ react-antd/.env.production.local
 react-antd/npm-debug.log*
 react-antd/yarn-debug.log*
 react-antd/yarn-error.log*
+
+# ===================================
+# SERVER
+server/node_modules
