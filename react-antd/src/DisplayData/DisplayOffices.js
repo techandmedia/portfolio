@@ -1,6 +1,6 @@
 import React from "react";
-import { List,Row, Col, Card } from "antd";
-import { success, error, info, warning } from "../Basic/InformationModal";
+import { List, Row, Col, Card } from "antd";
+// import { success, error, info, warning } from "../Basic/InformationModal";
 
 class DisplayCompany extends React.Component {
   constructor(props) {
@@ -12,17 +12,18 @@ class DisplayCompany extends React.Component {
       phone: null,
       select: null,
       confirmDirty: false,
-      autoCompleteResult: []
+      autoCompleteResult: [],
+      dataOffices: []
     };
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const fullName = values.fullName;
-      const address = values.address;
-      const revenue = values.revenue;
-      const phone = values.phone;
+      // const fullName = values.fullName;
+      // const address = values.address;
+      // const revenue = values.revenue;
+      // const phone = values.phone;
 
       if (!err) {
         console.log(err);
@@ -58,12 +59,36 @@ class DisplayCompany extends React.Component {
     });
   };
 
-  infoClick() {
-    info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
+  componentDidMount() {
+    const { companyID, offices } = this.props;
+    let data = [];
+    offices.map(office => {
+      if (companyID === office.company_id) {
+        let date = new Date(office.start_date);
+        data.push({
+          officeID: office.office_id,
+          officeName: office.office_name,
+          lat: office.latitude,
+          log: office.log,
+          date:
+            date.getMonth() +
+            1 +
+            "/" +
+            date.getDate() +
+            "/" +
+            date.getFullYear()
+        });
+      }
+    });
+    this.setState({ dataOffices: data });
   }
 
+  // infoClick() {
+  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
+  // }
+
   render() {
-    const { companies } = this.props;
+    const { dataOffices } = this.state;
 
     return (
       <Row
@@ -74,21 +99,16 @@ class DisplayCompany extends React.Component {
         <Col md={16}>
           <List
             grid={{ gutter: 32, column: 2 }}
-            dataSource={companies}
+            dataSource={dataOffices}
             renderItem={item => (
-              <List.Item>
-                <Card title={item.company_name} className="company-style">
-                  <p style={{ fontWeight: "bold" }}>Address:</p>
-                  {/* <br /> */}
-                  <p style={{ marginTop: -15 }}>{item.address}</p>
+              <List.Item key={item.officeID}>
+                <Card title={item.officeName} className="company-style">
+                  <p style={{ fontWeight: "bold" }}>Location:</p>
+                  <p style={{ marginTop: -15 }}>Lat: {item.lat}</p>
+                  <p style={{ marginTop: -15 }}>Log: {item.log}</p>
 
-                  <p style={{ fontWeight: "bold" }}>Revenue:</p>
-                  <p style={{ marginTop: -15 }}>{item.revenue}</p>
-
-                  <p style={{ fontWeight: "bold" }}>Phone No:</p>
-                  <p style={{ marginTop: -15 }}>
-                    ({item.phone_country_code}) {item.phone_number}
-                  </p>
+                  <p style={{ fontWeight: "bold" }}>Office Start Date:</p>
+                  <p style={{ marginTop: -15 }}>{item.date}</p>
                 </Card>
               </List.Item>
             )}

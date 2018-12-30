@@ -1,6 +1,6 @@
 import React from "react";
 import { List,Row, Col, Card } from "antd";
-import { success, error, info, warning } from "../Basic/InformationModal";
+// import { success, error, info, warning } from "../Basic/InformationModal";
 
 class DisplayCompany extends React.Component {
   constructor(props) {
@@ -19,10 +19,10 @@ class DisplayCompany extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const fullName = values.fullName;
-      const address = values.address;
-      const revenue = values.revenue;
-      const phone = values.phone;
+      // const fullName = values.fullName;
+      // const address = values.address;
+      // const revenue = values.revenue;
+      // const phone = values.phone;
 
       if (!err) {
         console.log(err);
@@ -58,12 +58,12 @@ class DisplayCompany extends React.Component {
     });
   };
 
-  infoClick() {
-    info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
-  }
+  // infoClick() {
+  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
+  // }
 
   render() {
-    const { companies } = this.props;
+    const { companies, handleCompanyClick } = this.props;
 
     return (
       <Row
@@ -76,8 +76,8 @@ class DisplayCompany extends React.Component {
             grid={{ gutter: 32, column: 2 }}
             dataSource={companies}
             renderItem={item => (
-              <List.Item>
-                <Card title={item.company_name} className="company-style">
+              <List.Item onClick={() => handleCompanyClick({item})}>
+                <Card title={item.company_name} className="company-style" >
                   <p style={{ fontWeight: "bold" }}>Address:</p>
                   {/* <br /> */}
                   <p style={{ marginTop: -15 }}>{item.address}</p>

@@ -23,7 +23,7 @@ exports.getCompanies = router.get(`/api/${pc}`, (req, res) => {
 
 // ============== Get Offices ================================
 exports.getCompanies = router.get(`/api/${po}`, (req, res) => {
-  mySQL.query(`SELECT * FROM ${po} ORDER BY office_name`, (err, results) => {
+  mySQL.query(`SELECT * FROM ${po}`, (err, results) => {
     if (err) console.log(err);
     res.send(JSON.stringify(results));
   });

@@ -1,11 +1,10 @@
 import React from "react";
 import { Form, Input, Select, Row, Col, Card, Button } from "antd";
-import { success, error, info, warning } from "../Basic/InformationModal";
+// import { success, error, info, warning } from "../Basic/InformationModal";
 
 // import { registerUser } from "../data/PostData";
 
 const FormItem = Form.Item;
-const InputGroup = Input.Group;
 const Option = Select.Option;
 
 class CreateCompany extends React.Component {
@@ -25,9 +24,9 @@ class CreateCompany extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const fullName = values.fullName;
-      const address = values.address;
-      const revenue = values.revenue;
+      // const fullName = values.fullName;
+      // const address = values.address;
+      // const revenue = values.revenue;
       const phone = values.phone;
 
       if (!err) {
@@ -69,21 +68,9 @@ class CreateCompany extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = [".com", ".org", ".net"].map(
-        domain => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
-  };
-
-  infoClick() {
-    info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
-  }
+  // infoClick() {
+  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
+  // }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -113,6 +100,15 @@ class CreateCompany extends React.Component {
         }
       }
     };
+
+    const prefixSelector = getFieldDecorator("prefix", {
+      initialValue: "62"
+    })(
+      <Select style={{ width: 70 }}>
+        <Option value="62">+62</Option>
+        <Option value="61">+61</Option>
+      </Select>
+    );
 
     return (
       <Row
@@ -181,7 +177,7 @@ class CreateCompany extends React.Component {
               </FormItem>
               <FormItem
                 {...formItemLayout}
-                label="Phone No"
+                label="Phone Number"
                 className="label-style"
               >
                 {getFieldDecorator("phone", {
@@ -192,14 +188,11 @@ class CreateCompany extends React.Component {
                     }
                   ]
                 })(
-                  <InputGroup>
-                    <Col span={5}>
-                      <Input placeholder="code" />
-                    </Col>
-                    <Col span={19}>
-                      <Input placeholder="number" />
-                    </Col>
-                  </InputGroup>
+                  <Input
+                    addonBefore={prefixSelector}
+                    style={{ width: "100%" }}
+                    placeholder="Nomor Anda tidak akan disimpan, fitur ini belum tersedia"
+                  />
                 )}
               </FormItem>
               <FormItem {...tailFormItemLayout}>

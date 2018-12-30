@@ -2,21 +2,19 @@ import React from "react";
 import {
   Form,
   Input,
-  select_company,
   Row,
   Col,
   Card,
-  Checkbox,
   Button,
   Select
 } from "antd";
 // import { NormalCard as Card } from "../Basic Component/Card";
-import { success, error, info, warning } from "../Basic/InformationModal";
+// import { success, error, info, warning } from "../Basic/InformationModal";
 
 // import { registerUser } from "../data/PostData";
 
 const FormItem = Form.Item;
-const InputGroup = Input.Group;
+// const InputGroup = Input.Group;
 const Option = Select.Option;
 
 class CreateOffice extends React.Component {
@@ -36,11 +34,11 @@ class CreateOffice extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const company_name = values.company_name;
-      const location = values.location;
-      const email = values.email;
-      const password = values.password;
-      const role = values.role;
+      // const company_name = values.company_name;
+      // const location = values.location;
+      // const email = values.email;
+      // const password = values.password;
+      // const role = values.role;
 
       if (!err) {
         console.log(err);
@@ -81,9 +79,9 @@ class CreateOffice extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  infoClick() {
-    info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
-  }
+  // infoClick() {
+  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
+  // }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -113,14 +111,6 @@ class CreateOffice extends React.Component {
         }
       }
     };
-    const prefixselect_companyor = getFieldDecorator("prefix", {
-      initialValue: "62"
-    })(
-      <select_company style={{ width: 70 }}>
-        <Option value="62">+62</Option>
-        <Option value="61">+61</Option>
-      </select_company>
-    );
 
     // const websiteOptions = autoCompleteResult.map(website => (
     //   <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
