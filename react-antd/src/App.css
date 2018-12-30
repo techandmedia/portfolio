@@ -5,3 +5,9 @@
 .label-style {
   font-weight: bold;
 }
+
+.company-style:hover {
+  cursor: pointer;
+  /* color: ; */
+  background-color: beige
+}
