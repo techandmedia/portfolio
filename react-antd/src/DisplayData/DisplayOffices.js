@@ -79,16 +79,15 @@ class DisplayCompany extends React.Component {
             date.getFullYear()
         });
       }
+      return null;
     });
     this.setState({ dataOffices: data });
+    // console.log("cdm")
   }
-
-  // infoClick() {
-  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
-  // }
 
   render() {
     const { dataOffices } = this.state;
+    // console.log("render")
 
     return (
       <Row

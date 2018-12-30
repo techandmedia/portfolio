@@ -8,6 +8,6 @@
 
 .company-style:hover {
   cursor: pointer;
-  /* color: ; */
-  background-color: beige
+  color: beige;
+  background-color: rgba(0, 0, 0, 0.3);
 }

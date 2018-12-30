@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Input, Select, Row, Col, Card, Button } from "antd";
-// import { success, error, info, warning } from "../Basic/InformationModal";
+import { success, info } from "../Basic/InformationModal";
 
-// import { registerUser } from "../data/PostData";
+import { postCompanies } from "../Fetch/PostData";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -11,55 +11,41 @@ class CreateCompany extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: null,
-      address: null,
-      revenue: null,
-      phone: null,
-      select: null,
-      confirmDirty: false,
-      autoCompleteResult: []
     };
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      // const fullName = values.fullName;
-      // const address = values.address;
-      // const revenue = values.revenue;
-      const phone = values.phone;
+      console.log(values);
+      const company_name = values.company_name;
+      const address = values.address;
+      const revenue = values.revenue;
+      const phone_country_code = values.prefix;
+      const phone_number = values.phone;
 
       if (!err) {
-        console.log(err);
-        // registerUser(
-        //   this.props.URL,
-        //   fullName,
-        //   address,
-        //   role,
-        //   revenue,
-        //   phone
-        // ).then(res => {
-        //   const code = res.data.code;
-        //   if (code === 700) {
-        //     error("Input Kosong", "Input tidak boleh ada yang kosong");
-        //   } else if (code === 200) {
-        //     success(
-        //       "Anda berhasil mendaftar",
-        //       "Silahkan Login untuk masuk ke dashboard Anda"
-        //     );
-        //   } else if (code === 204) {
-        //     warning(
-        //       "revenue sudah terdaftar",
-        //       "Pilih login untuk masuk ke dashboard Anda atau gunakan revenue Account lain"
-        //     );
-        //   } else {
-        //     info(
-        //       "Masalah Koneksi",
-        //       "Ada masalah dengan koneksi Anda, harap cek koneksi internet Anda dan ulangi lagi"
-        //     );
-        //   }
-        // });
+        postCompanies(
+          this.props.URL,
+          company_name,
+          address,
+          revenue,
+          phone_country_code,
+          phone_number
+        ).then(res => {
+          const code = res.data.code;
+          if (code === 200) {
+            this.props.handleStatusAdd(code);
+            success("Success", "You have succesfully created a company");
+          } else {
+            info(
+              "Error",
+              "There's something wrong with the connection, please try again latter"
+            );
+          }
+        });
       }
+      // console.log(err);
     });
   };
 
@@ -68,13 +54,9 @@ class CreateCompany extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  // infoClick() {
-  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
-  // }
-
   render() {
     const { getFieldDecorator } = this.props.form;
-    // const { autoCompleteResult } = this.state;
+    // console.log(this.props)
 
     const formItemLayout = {
       labelCol: {
@@ -123,16 +105,15 @@ class CreateCompany extends React.Component {
               fontWeight: 500,
               fontSize: 22,
               color: "#696969"
-              // textAlign: "center"
             }}
           >
-            <Form layout="vertical" onSubmit={this.handleSubmit}>
+            <Form layout="vertical" onSubmit={e => this.handleSubmit(e)}>
               <FormItem
                 {...formItemLayout}
                 label={"Name"}
                 className="label-style"
               >
-                {getFieldDecorator("fullName", {
+                {getFieldDecorator("company_name", {
                   rules: [
                     {
                       required: true,
@@ -165,10 +146,6 @@ class CreateCompany extends React.Component {
                 {getFieldDecorator("revenue", {
                   rules: [
                     {
-                      type: "revenue",
-                      message: "The input is not valid E-mail!"
-                    },
-                    {
                       required: true,
                       message: "Please input your revenue!"
                     }
@@ -191,7 +168,7 @@ class CreateCompany extends React.Component {
                   <Input
                     addonBefore={prefixSelector}
                     style={{ width: "100%" }}
-                    placeholder="Nomor Anda tidak akan disimpan, fitur ini belum tersedia"
+                    placeholder="number"
                   />
                 )}
               </FormItem>

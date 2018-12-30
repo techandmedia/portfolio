@@ -19,22 +19,43 @@ class App extends React.Component {
     isOffice: false,
     companies: [],
     offices: [],
-    companyID: null
+    companyID: 0,
+    status: false
+  };
+
+  getDataCompanies = () => {
+    getCompanies(URL).then(result => {
+      this.setState({
+        companies: result.data,
+        isCompany: true
+      });
+    });
+    // console.log('tes')
+    return null;
   };
 
   componentDidMount() {
-    getCompanies(URL).then(result => {
-      this.setState({
-        isCompany: true,
-        companies: result.data
-      });
-    });
+    this.getDataCompanies();
+    this.getDataOffices();
+    console.log(this.state.companies);
+  }
+
+  getDataOffices = () => {
     getOffices(URL).then(result => {
       this.setState({
-        isOffice: true,
-        offices: result.data
+        offices: result.data,
+        isOffice: true
       });
     });
+    return null;
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevState.status);
+    this.handleStatusAdd();
+    if (prevState.status !== this.state.status) {
+      this.getDataCompanies();
+    }
   }
 
   handleCompanyClick = item => {
@@ -43,9 +64,25 @@ class App extends React.Component {
     });
   };
 
+  handleStatusAdd = code => {
+    if (code === 200) {
+      this.setState({
+        status: !this.state.status
+      });
+    }
+  };
+
   render() {
-    const { isCompany, isOffice, companies, offices, companyID } = this.state;
-    const { handleCompanyClick } = this;
+    const {
+      isCompany,
+      isOffice,
+      companies,
+      offices,
+      companyID,
+      status
+    } = this.state;
+    const { handleCompanyClick, handleStatusAdd } = this;
+    console.log(companies);
 
     return (
       <React.Fragment>
@@ -61,10 +98,10 @@ class App extends React.Component {
         </h2>
         <Row>
           <Col md={{ span: 8, offset: 4 }}>
-            <CreateCompany />
+            <CreateCompany URL={URL} handleStatusAdd={handleStatusAdd} />
           </Col>
           <Col md={{ span: 8, offset: 0 }}>
-            <CreateOffice />
+            <CreateOffice URL={URL} />
           </Col>
         </Row>
         <Row>
@@ -84,15 +121,31 @@ class App extends React.Component {
           {isCompany ? (
             <React.Fragment>
               <DisplayCompanies
+                status={status}
+                URL={URL}
                 companies={companies}
                 handleCompanyClick={handleCompanyClick}
               />
               {isOffice ? (
-                <DisplayOffices
-                  offices={offices}
-                  companyID={companyID}
-                  key={companyID}
-                />
+                companyID === 0 ? (
+                  <Col md={{ span: 24, offset: 0 }}>
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        marginBottom: 200,
+                        textAlign: "center"
+                      }}
+                    >
+                      Please Select Company
+                    </p>
+                  </Col>
+                ) : (
+                  <DisplayOffices
+                    offices={offices}
+                    companyID={companyID}
+                    key={companyID}
+                  />
+                )
               ) : (
                 <Col md={{ span: 24, offset: 0 }}>
                   <p style={{ marginBottom: 200, textAlign: "center" }}>
