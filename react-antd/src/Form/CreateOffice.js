@@ -1,6 +1,16 @@
 import React from "react";
-import { Form, Input, Row, Col, Card, Button, Select, Cascader } from "antd";
-// import { success, error, info, warning } from "../Basic/InformationModal";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  Card,
+  Button,
+  Select,
+  Cascader,
+  DatePicker
+} from "antd";
+import { success, error, info, warning } from "../Basic/InformationModal";
 
 import { postOffices } from "../Fetch/PostData";
 
@@ -31,28 +41,38 @@ class CreateOffice extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    // this.handleStatusAdd();
-    let length1 = prevProps.companies.length
-    let length2 = this.props.companies.length
-    // console.log("prevProps", prevProps.companies.length)
-    // console.log("thisProps", this.props.companies.length)
+    let length1 = prevProps.companies.length;
+    let length2 = this.props.companies.length;
     if (length1 !== length2) {
       this.copyDataCompanies();
     }
-    console.log("prevState", prevState)
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      // const company_name = values.company_name;
-      // const location = values.location;
-      // const email = values.email;
-      // const password = values.password;
-      // const role = values.role;
-
+    this.props.form.validateFields((err, fieldsValue) => {
+      const rangeValue = fieldsValue["range-picker"];
+      const rangeTimeValue = fieldsValue["range-time-picker"];
+      const values = {
+        ...fieldsValue,
+        "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD"),
+        "date-time-picker": fieldsValue["date-time-picker"].format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        "month-picker": fieldsValue["month-picker"].format("YYYY-MM"),
+        "range-picker": [
+          rangeValue[0].format("YYYY-MM-DD"),
+          rangeValue[1].format("YYYY-MM-DD")
+        ],
+        "range-time-picker": [
+          rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
+          rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss")
+        ],
+        "time-picker": fieldsValue["time-picker"].format("HH:mm:ss")
+      };
+      console.log(values);
+      console.log(fieldsValue);
       if (!err) {
-        console.log(err);
         // registerUser(
         //   this.props.URL,
         //   company_name,
@@ -82,6 +102,11 @@ class CreateOffice extends React.Component {
         //   }
         // });
       }
+      info(
+        "Error",
+        "There's something wrong with the connection, please try again latter"
+      );
+      console.log(err);
     });
   };
 
@@ -96,9 +121,6 @@ class CreateOffice extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { URL, offices } = this.props;
-    // console.log(URL, offices);
-    console.log(this.state.companies);
 
     const formItemLayout = {
       labelCol: {
@@ -125,9 +147,11 @@ class CreateOffice extends React.Component {
       }
     };
 
-    // const websiteOptions = autoCompleteResult.map(website => (
-    //   <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    // ));
+    const config = {
+      rules: [
+        { type: "object", required: true, message: "Please select time!" }
+      ]
+    };
 
     return (
       <Row
@@ -145,7 +169,7 @@ class CreateOffice extends React.Component {
               // textAlign: "center"
             }}
           >
-            <Form layout="vertical" onSubmit={this.handleSubmit}>
+            <Form layout="vertical" >
               <FormItem
                 {...formItemLayout}
                 label={"Name"}
@@ -162,37 +186,43 @@ class CreateOffice extends React.Component {
                 })(<Input placeholder="name" />)}
               </FormItem>
 
-              <FormItem
-                {...formItemLayout}
-                label={"Location"}
-                className="label-style"
-              >
-                {getFieldDecorator("location", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Please input location!",
-                      whitespace: false
-                    }
-                  ]
-                })(<Input placeholder="location" />)}
-              </FormItem>
+              <Row gutter={12}>
+                <Col span={12}>
+                  <FormItem
+                    {...formItemLayout}
+                    label={"Location"}
+                    className="label-style"
+                  >
+                    {getFieldDecorator("latitude", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please input latitude!"
+                        }
+                      ]
+                    })(<Input placeholder="latitude" />)}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  {" "}
+                  <FormItem {...formItemLayout} label={"."} className="white">
+                    {getFieldDecorator("longitude", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please input longitude!"
+                        }
+                      ]
+                    })(<Input placeholder="longitude" />)}
+                  </FormItem>
+                </Col>
+              </Row>
 
-              <FormItem
-                {...formItemLayout}
-                label={"Office Start Date"}
-                className="label-style"
-              >
-                {getFieldDecorator("office_start_date", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Please input office start date!",
-                      whitespace: false
-                    }
-                  ]
-                })(<Input placeholder="date" />)}
-              </FormItem>
+              <Form.Item {...formItemLayout} label="Office Start Date">
+                {getFieldDecorator("date-picker", config)(
+                  <DatePicker placeholder="date" />
+                )}
+              </Form.Item>
 
               <FormItem {...formItemLayout} label="Company">
                 {getFieldDecorator("company_id", {
@@ -208,7 +238,7 @@ class CreateOffice extends React.Component {
               <FormItem {...tailFormItemLayout}>
                 <Button
                   type="primary"
-                  htmlType="submit"
+                  onClick={(e) => this.handleSubmit(e)}
                   style={{ marginBottom: -60 }}
                 >
                   Create
