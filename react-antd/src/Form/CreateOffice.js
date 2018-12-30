@@ -1,34 +1,45 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Card,
-  Button,
-  Select
-} from "antd";
-// import { NormalCard as Card } from "../Basic Component/Card";
+import { Form, Input, Row, Col, Card, Button, Select, Cascader } from "antd";
 // import { success, error, info, warning } from "../Basic/InformationModal";
 
-// import { registerUser } from "../data/PostData";
+import { postOffices } from "../Fetch/PostData";
 
 const FormItem = Form.Item;
 // const InputGroup = Input.Group;
 const Option = Select.Option;
 
 class CreateOffice extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      company_name: null,
-      location: null,
-      office_start_date: null,
-      password: null,
-      select_company: null,
-      confirmDirty: false,
-      autoCompleteResult: []
-    };
+  state = {
+    companies: []
+  };
+
+  // componentDidMount() {
+  //   console.log(this.props.companies);
+  //   console.log(this.props.offices);
+  //   this.copyDataCompanies();
+  // }
+
+  copyDataCompanies = () => {
+    this.setState({
+      companies: this.props.companies.map(data => ({
+        id: data.company_id,
+        value: data.company_id,
+        label: data.company_name
+      }))
+    });
+    return null;
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    // this.handleStatusAdd();
+    let length1 = prevProps.companies.length
+    let length2 = this.props.companies.length
+    // console.log("prevProps", prevProps.companies.length)
+    // console.log("thisProps", this.props.companies.length)
+    if (length1 !== length2) {
+      this.copyDataCompanies();
+    }
+    console.log("prevState", prevState)
   }
 
   handleSubmit = e => {
@@ -79,13 +90,15 @@ class CreateOffice extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  // infoClick() {
-  //   info("Fitur ini belum tersedia", "Silahkan kembali lagi nanti");
-  // }
+  handleReset = () => {
+    this.props.form.resetFields();
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    // const { autoCompleteResult } = this.state;
+    const { URL, offices } = this.props;
+    // console.log(URL, offices);
+    console.log(this.state.companies);
 
     const formItemLayout = {
       labelCol: {
@@ -181,31 +194,23 @@ class CreateOffice extends React.Component {
                 })(<Input placeholder="date" />)}
               </FormItem>
 
-              <FormItem
-                {...formItemLayout}
-                label="Company"
-                className="label-style"
-              >
-                {getFieldDecorator("role", {
-                  // initialValue: ["Calon Mahasiswa", "Admin"],
+              <FormItem {...formItemLayout} label="Company">
+                {getFieldDecorator("company_id", {
+                  // initialValue: ["Admin"],
                   rules: [
                     {
-                      // type: "array",
                       required: true,
-                      message: "Harap isi Status/Role Anda!"
+                      message: "Please chose a company"
                     }
                   ]
-                })(
-                  <Select placeholder="Pilih Status/Role Anda">
-                    <Option value="Admin">Admin</Option>
-                    <Option value="Dosen">Dosen</Option>
-                    <Option value="Mahasiswa">Mahasiswa</Option>
-                    <Option value="Calon Mahasiswa">Calon Mahasiswa</Option>
-                  </Select>
-                )}
+                })(<Cascader options={this.state.companies} />)}
               </FormItem>
               <FormItem {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit" style={{marginBottom: -60}}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ marginBottom: -60 }}
+                >
                   Create
                 </Button>
               </FormItem>

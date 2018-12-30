@@ -24,6 +24,11 @@ class App extends React.Component {
     overView: false
   };
 
+  componentDidMount() {
+    this.getDataCompanies();
+    this.getDataOffices();
+  }
+  
   getDataCompanies = () => {
     getCompanies(URL).then(result => {
       this.setState({
@@ -33,11 +38,6 @@ class App extends React.Component {
     });
     return null;
   };
-
-  componentDidMount() {
-    this.getDataCompanies();
-    this.getDataOffices();
-  }
 
   getDataOffices = () => {
     getOffices(URL).then(result => {
@@ -103,6 +103,8 @@ class App extends React.Component {
       company
     } = this.state;
     const { handleCompanyChange, handleStatusAdd, handleOverViewChange } = this;
+    // console.log(companies);
+    // console.log(offices);
 
     return (
       <React.Fragment>
@@ -121,10 +123,10 @@ class App extends React.Component {
             <CreateCompany URL={URL} handleStatusAdd={handleStatusAdd} />
           </Col>
           <Col md={{ span: 8, offset: 0 }}>
-            <CreateOffice URL={URL} />
+            <CreateOffice URL={URL} offices={offices} companies={companies} />
           </Col>
         </Row>
-        <Row style={{marginBottom: -10}}>
+        <Row style={{ marginBottom: -10 }}>
           <Col md={{ span: 8, offset: 4 }}>
             <h2
               style={{

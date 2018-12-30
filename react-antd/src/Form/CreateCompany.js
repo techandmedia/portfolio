@@ -10,8 +10,7 @@ const Option = Select.Option;
 class CreateCompany extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   handleSubmit = e => {
@@ -37,6 +36,7 @@ class CreateCompany extends React.Component {
           if (code === 200) {
             this.props.handleStatusAdd(code);
             success("Success", "You have succesfully created a company");
+            this.handleReset();
           } else {
             info(
               "Error",
@@ -52,6 +52,10 @@ class CreateCompany extends React.Component {
   handleConfirmBlur = e => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  handleReset = () => {
+    this.props.form.resetFields();
   };
 
   render() {
@@ -173,7 +177,11 @@ class CreateCompany extends React.Component {
                 )}
               </FormItem>
               <FormItem {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit" style={{marginBottom: -60}}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ marginBottom: -60 }}
+                >
                   Create
                 </Button>
               </FormItem>
