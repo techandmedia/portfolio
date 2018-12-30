@@ -1,3 +1,25 @@
+body {
+  margin-top: -25px;
+  /* margin-bottom: 25px; */
+  padding: 0;
+}
+
+.ant-form{
+  line-height: 2
+}
+
+.ant-card-body{
+  padding: 15px;
+}
+
+.ant-card-head-title{
+  padding: 5px;
+}
+
+.ant-form-item {
+  margin-bottom: 5px;
+}
+
 .form-style {
   line-height: 0.3;
 }

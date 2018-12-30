@@ -60,6 +60,11 @@ class DisplayCompany extends React.Component {
   };
 
   componentDidMount() {
+    // console.log("cdm")
+    this.getOfficeData();
+  }
+
+  getOfficeData = () => {
     const { companyID, offices } = this.props;
     let data = [];
     offices.map(office => {
@@ -82,39 +87,59 @@ class DisplayCompany extends React.Component {
       return null;
     });
     this.setState({ dataOffices: data });
-    // console.log("cdm")
-  }
+  };
 
   render() {
     const { dataOffices } = this.state;
-    // console.log("render")
+    const length = dataOffices.length === 0 ? true : false;
+    // console.log("render", dataOffices.length);
+    // console.log("props", this.props);
 
-    return (
-      <Row
-        type="flex"
-        justify="center"
-        style={{ marginTop: "1em", padding: "1em" }}
-      >
-        <Col md={16}>
-          <List
-            grid={{ gutter: 32, column: 2 }}
-            dataSource={dataOffices}
-            renderItem={item => (
-              <List.Item key={item.officeID}>
-                <Card title={item.officeName} className="company-style">
-                  <p style={{ fontWeight: "bold" }}>Location:</p>
-                  <p style={{ marginTop: -15 }}>Lat: {item.lat}</p>
-                  <p style={{ marginTop: -15 }}>Log: {item.log}</p>
+    if (length === false) {
+      return (
+        <Row
+          type="flex"
+          justify="center"
+          style={{ marginTop: "1em", padding: "1em" }}
+        >
+          <Col md={16}>
+            <List
+              grid={{ gutter: 32, column: 2 }}
+              dataSource={dataOffices}
+              renderItem={item => (
+                <List.Item key={item.officeID}>
+                  <Card title={item.officeName} className="company-style">
+                    <p style={{ fontWeight: "bold" }}>Location:</p>
+                    <p style={{ marginTop: -15 }}>Lat: {item.lat}</p>
+                    <p style={{ marginTop: -15 }}>Log: {item.log}</p>
 
-                  <p style={{ fontWeight: "bold" }}>Office Start Date:</p>
-                  <p style={{ marginTop: -15 }}>{item.date}</p>
-                </Card>
-              </List.Item>
-            )}
-          />
+                    <p style={{ fontWeight: "bold" }}>Office Start Date:</p>
+                    <p style={{ marginTop: -15 }}>{item.date}</p>
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </Col>
+        </Row>
+      );
+    } else {
+      return (
+        <Col md={{ span: 24, offset: 0 }}>
+          <p
+            style={{
+              marginTop: 10,
+              marginBottom: 200,
+              fontSize: 20,
+              fontWeight: 500,
+              color: "violet",
+              textAlign: "center"
+            }}
+          >
+            There's no offices created yet
+          </p>
         </Col>
-      </Row>
-    );
+      );
+    }
   }
 }
 

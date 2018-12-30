@@ -205,7 +205,7 @@ class CreateOffice extends React.Component {
                 )}
               </FormItem>
               <FormItem {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{marginBottom: -60}}>
                   Create
                 </Button>
               </FormItem>
