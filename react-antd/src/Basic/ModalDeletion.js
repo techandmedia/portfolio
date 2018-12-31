@@ -6,17 +6,43 @@ function ModalDeletion({
   handleModalOk,
   handleModalCancel,
   companyID,
-  officeID
+  officeID,
+  company,
+  office
 }) {
+  // console.log(companies, offices);
+  const {
+    company_name,
+    address,
+    phone_country_code,
+    phone_number,
+    revenue
+  } = company;
+  // const { office_name, latitude, log, start_date } = office;
+  console.log(company);
   return (
     <div>
       <Modal
-        title="Basic Modal"
+        title="Confirm Deletion"
         visible={visible}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
       >
-        {companyID ? <p>Company</p> : officeID ? <p>Office</p> : null}
+        {companyID ? (
+          <React.Fragment>
+            <p style={{ fontSize:22, color: "red" }}>
+              You are about to delete the following company
+            </p>
+            <p>{company_name}</p>
+            <p>{address}</p>
+            <p>
+              ({phone_country_code}) {phone_number}
+            </p>
+            <p>{revenue}</p>
+          </React.Fragment>
+        ) : officeID ? (
+          <p>Office</p>
+        ) : null}
       </Modal>
     </div>
   );

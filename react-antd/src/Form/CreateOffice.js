@@ -6,7 +6,6 @@ import {
   Col,
   Card,
   Button,
-  Select,
   Cascader,
   DatePicker
 } from "antd";
@@ -45,13 +44,11 @@ class CreateOffice extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
       let todayDate = new Date();
-      let startDate = {
-        "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD")
-      };
       const office_name = fieldsValue.office_name;
       const company_id = fieldsValue.company_id;
       const latitude = fieldsValue.latitude;
       const longitude = fieldsValue.longitude;
+      const startDate = fieldsValue.start_date;
 
       if (err) {
         info(
@@ -167,7 +164,7 @@ class CreateOffice extends React.Component {
               </Row>
 
               <Form.Item {...formItemLayout} label="Office Start Date">
-                {getFieldDecorator("date-picker", config)(
+                {getFieldDecorator("start_date", config)(
                   <DatePicker placeholder="date" />
                 )}
               </Form.Item>

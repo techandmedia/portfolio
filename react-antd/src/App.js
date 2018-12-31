@@ -9,7 +9,6 @@ import { deleteCompany, deleteOffice } from "./Fetch/DeleteData";
 import { getCompanies, getOffices } from "./Fetch/GetData";
 
 import ModalDeletion from "./Basic/ModalDeletion";
-import { warning } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
 
@@ -29,6 +28,7 @@ class App extends React.Component {
   };
 
   // ===============  Life Cycle Hooks ===========================
+
   componentDidMount() {
     this.getDataCompanies();
     this.getDataOffices();
@@ -72,11 +72,10 @@ class App extends React.Component {
 
   handleOfficeDelete = item => {
     const officeID = item.item.officeID;
-    console.log(officeID);
     this.setState({
       officeID: officeID,
       companyID: 0
-    })
+    });
   };
 
   showModalDeletion = () => {
@@ -91,12 +90,12 @@ class App extends React.Component {
   handleModalOk = () => {
     const companyID = this.state.companyID;
     const officeID = this.state.officeID;
-    console.log(companyID, officeID);
     if (companyID) {
       deleteCompany(URL, companyID);
-      this.setState({companyID: 0})
+      this.setState({ companyID: 0 });
     } else if (officeID) {
       deleteOffice(URL, officeID);
+      this.setState({ officeID: 0 });
     }
     this.setState({
       visible: false,
@@ -106,13 +105,15 @@ class App extends React.Component {
   };
 
   handleModalCancel = e => {
-    // console.log(e);
     this.setState({
       visible: false
     });
   };
 
   // =============================================================
+
+  // ======== Handle View Change =================================
+  // Make individual company
 
   handleCompanyChange = item => {
     this.setState({
@@ -131,8 +132,6 @@ class App extends React.Component {
     });
   };
 
-  
-
   handleOverViewChange = () => {
     // console.log(number)
     this.setState({
@@ -143,6 +142,14 @@ class App extends React.Component {
     });
   };
 
+  handleOfficeChange = item => {
+    
+  }
+
+  // =================================================================
+
+  // ========== Check Status =========================================
+
   handleStatusAdd = code => {
     if (code === 200) {
       this.setState({
@@ -151,7 +158,7 @@ class App extends React.Component {
     }
   };
 
-  
+  // =============== Render =============================================
 
   render() {
     const {
@@ -261,6 +268,8 @@ class App extends React.Component {
           handleModalCancel={handleModalCancel}
           companyID={companyID}
           officeID={officeID}
+          company={company}
+          offices={offices}
         />
       </React.Fragment>
     );
