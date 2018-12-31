@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 
 function ModalDeletion({
   visible,
@@ -10,7 +10,6 @@ function ModalDeletion({
   company,
   office
 }) {
-  // console.log(companies, offices);
   const {
     company_name,
     address,
@@ -18,8 +17,8 @@ function ModalDeletion({
     phone_number,
     revenue
   } = company;
-  // const { office_name, latitude, log, start_date } = office;
-  console.log(company);
+  const { officeName, lat, log, date } = office;
+  // console.log(office, company);
   return (
     <div>
       <Modal
@@ -30,18 +29,43 @@ function ModalDeletion({
       >
         {companyID ? (
           <React.Fragment>
-            <p style={{ fontSize:22, color: "red" }}>
-              You are about to delete the following company
+            <p className="modal-p">
+              You are about to delete company{" "}
+              <span style={{ fontWeight: "bold", color: "red" }}>
+                {company_name}
+              </span>
+              .
             </p>
-            <p>{company_name}</p>
-            <p>{address}</p>
-            <p>
-              ({phone_country_code}) {phone_number}
+            <p className="modal-p">
+              All office records that belong the company will be deleted as
+              well.
+            </p>{" "}
+            <hr />
+            <p className="modal-p">Company Name: {company_name}</p>
+            <p className="modal-p">Address: {address}</p>
+            <p className="modal-p">
+              Phone Number: ({phone_country_code}) {phone_number}
             </p>
-            <p>{revenue}</p>
+            <p className="modal-p">Revenue: {revenue}</p>
           </React.Fragment>
         ) : officeID ? (
-          <p>Office</p>
+          <React.Fragment>
+            <p className="modal-p">
+              You are about to delete office{" "}
+              <span style={{ fontWeight: "bold", color: "red" }}>
+                {officeName}
+              </span>
+              .
+            </p>
+            <hr />
+            <p className="modal-p">Company Name: {company_name}</p>
+            <p className="modal-p">Office Name: {officeName}</p>
+            <p className="modal-p">Location:</p>
+            <p className="modal-p">
+              latitude: {lat} longitude: {log}
+            </p>
+            <p className="modal-p">Start Date: {date}</p>
+          </React.Fragment>
         ) : null}
       </Modal>
     </div>

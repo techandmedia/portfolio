@@ -21,6 +21,7 @@ class App extends React.Component {
     companies: [],
     company: {},
     offices: [],
+    office: {},
     companyID: 0,
     officeID: 0,
     overView: false,
@@ -71,10 +72,18 @@ class App extends React.Component {
   // =============== Delete Company / Office =======================
 
   handleOfficeDelete = item => {
+    console.log(item);
+    let data = item.item;
     const officeID = item.item.officeID;
     this.setState({
       officeID: officeID,
-      companyID: 0
+      companyID: 0,
+      office: {
+        officeName: data.officeName,
+        lat: data.lat,
+        log: data.log,
+        date: data.date
+      }
     });
   };
 
@@ -142,10 +151,6 @@ class App extends React.Component {
     });
   };
 
-  handleOfficeChange = item => {
-    
-  }
-
   // =================================================================
 
   // ========== Check Status =========================================
@@ -169,6 +174,7 @@ class App extends React.Component {
       officeID,
       overView,
       company,
+      office,
       visible
     } = this.state;
     const {
@@ -269,7 +275,7 @@ class App extends React.Component {
           companyID={companyID}
           officeID={officeID}
           company={company}
-          offices={offices}
+          office={office}
         />
       </React.Fragment>
     );

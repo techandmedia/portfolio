@@ -39,3 +39,9 @@ body {
 .white {
   color: rgba(255, 255, 255, 1);
 }
+
+.modal-p {
+  font-size: 26;
+  /* color: red; */
+  line-height: 0.5;
+}
