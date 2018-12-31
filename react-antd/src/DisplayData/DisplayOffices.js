@@ -1,66 +1,13 @@
 import React from "react";
-import { List, Row, Col, Card } from "antd";
-// import { success, error, info, warning } from "../Basic/InformationModal";
+import { List, Row, Col, Card, Icon } from "antd";
 
 class DisplayCompany extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fullName: null,
-      address: null,
-      revenue: null,
-      phone: null,
-      select: null,
-      confirmDirty: false,
-      autoCompleteResult: [],
-      dataOffices: []
-    };
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      // const fullName = values.fullName;
-      // const address = values.address;
-      // const revenue = values.revenue;
-      // const phone = values.phone;
-
-      if (!err) {
-        console.log(err);
-        // registerUser(
-        //   this.props.URL,
-        //   fullName,
-        //   address,
-        //   role,
-        //   revenue,
-        //   phone
-        // ).then(res => {
-        //   const code = res.data.code;
-        //   if (code === 700) {
-        //     error("Input Kosong", "Input tidak boleh ada yang kosong");
-        //   } else if (code === 200) {
-        //     success(
-        //       "Anda berhasil mendaftar",
-        //       "Silahkan Login untuk masuk ke dashboard Anda"
-        //     );
-        //   } else if (code === 204) {
-        //     warning(
-        //       "revenue sudah terdaftar",
-        //       "Pilih login untuk masuk ke dashboard Anda atau gunakan revenue Account lain"
-        //     );
-        //   } else {
-        //     info(
-        //       "Masalah Koneksi",
-        //       "Ada masalah dengan koneksi Anda, harap cek koneksi internet Anda dan ulangi lagi"
-        //     );
-        //   }
-        // });
-      }
-    });
+  state = {
+    dataOffices: []
   };
 
   componentDidMount() {
-    console.log("cdm", this.state.dataOffices)
+    // console.log("cdm", this.state.dataOffices);
     this.getOfficeData();
   }
 
@@ -91,9 +38,8 @@ class DisplayCompany extends React.Component {
 
   render() {
     const { dataOffices } = this.state;
+    const { handleDeleteItem } = this.props;
     const length = dataOffices.length === 0 ? true : false;
-    // console.log("render", dataOffices.length);
-    // console.log("props", this.props);
 
     if (length === false) {
       return (
@@ -108,7 +54,16 @@ class DisplayCompany extends React.Component {
               dataSource={dataOffices}
               renderItem={item => (
                 <List.Item key={item.officeID}>
-                  <Card title={item.officeName} className="company-style">
+                  <Card
+                    title={item.officeName}
+                    extra={
+                      <Icon
+                        type="close"
+                        onClick={() => handleDeleteItem(false, item.officeID)}
+                      />
+                    }
+                    className="company-style"
+                  >
                     <p style={{ fontWeight: "bold" }}>Location:</p>
                     <p style={{ marginTop: -15 }}>Lat: {item.lat}</p>
                     <p style={{ marginTop: -15 }}>Log: {item.log}</p>

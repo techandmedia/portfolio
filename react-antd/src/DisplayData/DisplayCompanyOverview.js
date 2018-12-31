@@ -1,10 +1,15 @@
 import React from "react";
-import { Col, Row, Button, Card } from "antd";
+import { Col, Row, Button, Card, Icon } from "antd";
 import DisplayOffices from "./DisplayOffices";
 
 export default function DisplayCompanyOverview(props) {
-  const { isOffice, companyID, company, offices, handleOverViewChange } = props;
-  console.log(company);
+  const {
+    companyID,
+    company,
+    offices,
+    handleOverViewChange
+  } = props;
+  // console.log(company);
 
   return (
     <React.Fragment>
@@ -17,9 +22,12 @@ export default function DisplayCompanyOverview(props) {
           <Card
             title={company.company_name}
             className="company-style"
-            extra={<h3 onClick={() => alert("Tes")}>X</h3>}
-            headStyle={{fontSize: 22}}
-            style={{position: 'relative'}}
+            // Handle Deletion
+            extra={
+              <Icon type="close" />
+            }
+            headStyle={{ fontSize: 22 }}
+            style={{ position: "relative" }}
           >
             <p style={{ fontWeight: "bold" }}>Address:</p>
             <p style={{ marginTop: -15 }}>{company.address}</p>
@@ -31,7 +39,10 @@ export default function DisplayCompanyOverview(props) {
             <p style={{ marginTop: -15 }}>
               ({company.phone_country_code}) {company.phone_number}
             </p>
-            <Button onClick={() => handleOverViewChange()} style={{position: 'absolute',  right: 10, bottom: 20}}>
+            <Button
+              onClick={() => handleOverViewChange()}
+              style={{ position: "absolute", right: 10, bottom: 20 }}
+            >
               Back to Overview
             </Button>
           </Card>

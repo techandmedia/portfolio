@@ -11,24 +11,16 @@ import {
   DatePicker
 } from "antd";
 import { formItemLayout, tailFormItemLayout } from "../Basic/FormLayout";
-import { success, error, info, warning } from "../Basic/InformationModal";
+import { success, info } from "../Basic/InformationModal";
 
 import { postOffices } from "../Fetch/PostData";
 
 const FormItem = Form.Item;
-// const InputGroup = Input.Group;
-const Option = Select.Option;
 
 class CreateOffice extends React.Component {
   state = {
     companies: []
   };
-
-  // componentDidMount() {
-  //   console.log(this.props.companies);
-  //   console.log(this.props.offices);
-  //   this.copyDataCompanies();
-  // }
 
   copyDataCompanies = () => {
     this.setState({

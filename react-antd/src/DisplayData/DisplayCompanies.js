@@ -1,8 +1,8 @@
 import React from "react";
-import { List, Row, Col, Card } from "antd";
+import { List, Row, Col, Card, Icon } from "antd";
 
 function DisplayCompany(props) {
-  const { companies, handleCompanyChange } = props;
+  const { companies, handleCompanyChange, showModalDeletion } = props;
 
   return (
     <React.Fragment>
@@ -20,7 +20,9 @@ function DisplayCompany(props) {
                 <Card
                   title={item.company_name}
                   className="company-style"
-                  extra={<h3 onClick={() => alert("Tes")}>X</h3>}
+                  extra={
+                    <Icon type="close" onClick={() => showModalDeletion()} />
+                  }
                 >
                   <p style={{ fontWeight: "bold" }}>Address:</p>
                   <p style={{ marginTop: -15 }}>{item.address}</p>

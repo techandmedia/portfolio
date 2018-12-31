@@ -4,8 +4,12 @@ import CreateCompany from "./Form/CreateCompany";
 import CreateOffice from "./Form/CreateOffice";
 import DisplayCompanies from "./DisplayData/DisplayCompanies";
 import DisplayCompanyOverview from "./DisplayData/DisplayCompanyOverview";
+
+import { deleteCompany, deleteOffice } from "./Fetch/DeleteData";
 import { getCompanies, getOffices } from "./Fetch/GetData";
-// import { postCompanies, postOffices } from "./Fetch/PostData";
+
+import ModalDeletion from "./Basic/ModalDeletion";
+import { warning } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
 
@@ -15,13 +19,13 @@ const URL =
 class App extends React.Component {
   state = {
     isCompany: false,
-    isOffice: false,
     companies: [],
     company: {},
     offices: [],
     companyID: 0,
-    status: false,
-    overView: false
+    officeID: 0,
+    overView: false,
+    visible: false
   };
 
   componentDidMount() {
@@ -92,18 +96,57 @@ class App extends React.Component {
     }
   };
 
+  showModalDeletion = () => {
+    console.log("comp", this.state.companyID, this.state.officeID);
+
+    this.setState({
+      visible: true
+    });
+    // if (companyID) {
+    //   this.handleModalOk(companyID);
+    // }
+  };
+
+  handleModalOk = () => {
+    const companyID = this.state.companyID;
+    const officeID = this.state.officeID;
+    console.log(companyID, officeID);
+    if (companyID) {
+      deleteCompany(URL, companyID);
+    }
+    this.setState({
+      visible: false,
+      overView: false,
+      isCompany: true
+    });
+  };
+
+  handleModalCancel = e => {
+    // console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+
   render() {
     const {
       isCompany,
-      isOffice,
       companies,
       offices,
       companyID,
-      status,
+      officeID,
       overView,
-      company
+      company,
+      visible
     } = this.state;
-    const { handleCompanyChange, handleStatusAdd, handleOverViewChange } = this;
+    const {
+      handleCompanyChange,
+      handleStatusAdd,
+      handleOverViewChange,
+      showModalDeletion,
+      handleModalOk,
+      handleModalCancel
+    } = this;
     // console.log(companies);
     // console.log(offices);
 
@@ -158,19 +201,15 @@ class App extends React.Component {
             <DisplayCompanyOverview
               companyID={companyID}
               company={company}
-              isOffice={isOffice}
               offices={offices}
               handleOverViewChange={handleOverViewChange}
+              showModalDeletion={showModalDeletion}
             />
           ) : isCompany ? (
             <DisplayCompanies
-              isOffice={isOffice}
-              companyID={companyID}
-              offices={offices}
-              status={status}
-              URL={URL}
               companies={companies}
               handleCompanyChange={handleCompanyChange}
+              showModalDeletion={showModalDeletion}
             />
           ) : (
             <Col md={{ span: 24, offset: 0 }}>
@@ -189,6 +228,13 @@ class App extends React.Component {
             </Col>
           )}
         </Row>
+        <ModalDeletion
+          visible={visible}
+          handleModalOk={handleModalOk}
+          handleModalCancel={handleModalCancel}
+          companyID={companyID}
+          officeID={officeID}
+        />
       </React.Fragment>
     );
   }
