@@ -167,4 +167,26 @@ exports.deleteOffice = router.delete(`/api/${po}_delete/:id`, (req, res) => {
   );
 });
 
+// ============== Delete Office's Branch ===========================
+exports.deleteBranch = router.delete(`/api/${po}b_delete/:id`, (req, res) => {
+  const conDeleteData = { id: req.params.id };
+  const idToDelete = req.params.id;
+  mySQL.query(
+    `DELETE FROM ${po} WHERE company_id=?`,
+    [idToDelete, conDeleteData],
+    (err, results, fields) => {
+      if (!err) {
+        res.send({
+          code: 200,
+          status: "successfuly deleted office"
+          // message: JSON.stringify(results)
+        });
+      } else {
+        console.log(err);
+        res.send(err);
+      }
+    }
+  );
+});
+
 module.exports = router;

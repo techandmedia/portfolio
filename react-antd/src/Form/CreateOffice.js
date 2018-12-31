@@ -68,7 +68,7 @@ class CreateOffice extends React.Component {
       ).then(res => {
         const code = res.data.code;
         if (code === 200) {
-          this.props.handleStatusAdd(code);
+          this.props.handleUpdateChange(code);
           success("Success", "You have succesfully created a company");
           this.handleReset();
         } else {

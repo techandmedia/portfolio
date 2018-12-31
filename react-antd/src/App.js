@@ -5,10 +5,11 @@ import CreateOffice from "./Form/CreateOffice";
 import DisplayCompanies from "./DisplayData/DisplayCompanies";
 import DisplayCompanyOverview from "./DisplayData/DisplayCompanyOverview";
 
-import { deleteCompany, deleteOffice } from "./Fetch/DeleteData";
+import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
 import { getCompanies, getOffices } from "./Fetch/GetData";
 
 import ModalDeletion from "./Basic/ModalDeletion";
+import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
 
@@ -36,7 +37,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.handleStatusAdd();
+    this.handleUpdateChange();
     if (prevState.status !== this.state.status) {
       this.getDataCompanies();
       this.getDataOffices();
@@ -75,6 +76,7 @@ class App extends React.Component {
     console.log(item);
     let data = item.item;
     const officeID = item.item.officeID;
+    // ====== Make Individual Office ==============
     this.setState({
       officeID: officeID,
       companyID: 0,
@@ -100,11 +102,28 @@ class App extends React.Component {
     const companyID = this.state.companyID;
     const officeID = this.state.officeID;
     if (companyID) {
-      deleteCompany(URL, companyID);
-      this.setState({ companyID: 0 });
+      deleteCompany(URL, companyID).then(res => {
+        const code = res.data.code;
+        if (code === 200) {
+          this.handleUpdateChange(code);
+          success("Success", "You have succesfully deleted a company!");
+          deleteBranch(URL, companyID);
+          this.setState({ companyID: 0 });
+        } else {
+          info("Info", "Deletion failed. Check your connection!");
+        }
+      });
     } else if (officeID) {
-      deleteOffice(URL, officeID);
-      this.setState({ officeID: 0 });
+      deleteOffice(URL, officeID).then(res => {
+        const code = res.data.code;
+        if (code === 200) {
+          this.handleUpdateChange(code);
+          success("Success", "You have succesfully deleted a office!");
+          this.setState({ officeID: 0 });
+        } else {
+          info("Info", "Deletion failed. Check your connection!");
+        }
+      });
     }
     this.setState({
       visible: false,
@@ -153,9 +172,9 @@ class App extends React.Component {
 
   // =================================================================
 
-  // ========== Check Status =========================================
+  // ====== Check Status (Add, Delete, Update) =======================
 
-  handleStatusAdd = code => {
+  handleUpdateChange = code => {
     if (code === 200) {
       this.setState({
         status: !this.state.status
@@ -163,7 +182,7 @@ class App extends React.Component {
     }
   };
 
-  // =============== Render =============================================
+  // =============== Render ===========================================
 
   render() {
     const {
@@ -179,7 +198,7 @@ class App extends React.Component {
     } = this.state;
     const {
       handleCompanyChange,
-      handleStatusAdd,
+      handleUpdateChange,
       handleOverViewChange,
       showModalDeletion,
       handleModalOk,
@@ -203,14 +222,14 @@ class App extends React.Component {
         </h2>
         <Row>
           <Col md={{ span: 8, offset: 4 }}>
-            <CreateCompany URL={URL} handleStatusAdd={handleStatusAdd} />
+            <CreateCompany URL={URL} handleUpdateChange={handleUpdateChange} />
           </Col>
           <Col md={{ span: 8, offset: 0 }}>
             <CreateOffice
               URL={URL}
               offices={offices}
               companies={companies}
-              handleStatusAdd={handleStatusAdd}
+              handleUpdateChange={handleUpdateChange}
             />
           </Col>
         </Row>
