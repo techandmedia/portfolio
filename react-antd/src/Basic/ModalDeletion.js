@@ -1,15 +1,13 @@
 import React from "react";
 import { Modal, Button } from "antd";
 
-function ModalDeletion() {
-  const {
-    visible,
-    handleModalOk,
-    handleModalCancel,
-    companyID,
-    officeID
-  } = prps;
-
+function ModalDeletion({
+  visible,
+  handleModalOk,
+  handleModalCancel,
+  companyID,
+  officeID
+}) {
   return (
     <div>
       <Modal
@@ -18,9 +16,7 @@ function ModalDeletion() {
         onOk={handleModalOk}
         onCancel={handleModalCancel}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        {companyID ? <p>Company</p> : officeID ? <p>Office</p> : null}
       </Modal>
     </div>
   );

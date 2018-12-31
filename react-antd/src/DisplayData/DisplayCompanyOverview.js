@@ -7,7 +7,9 @@ export default function DisplayCompanyOverview(props) {
     companyID,
     company,
     offices,
-    handleOverViewChange
+    handleOverViewChange,
+    showModalDeletion,
+    handleOfficeDelete
   } = props;
   // console.log(company);
 
@@ -23,9 +25,7 @@ export default function DisplayCompanyOverview(props) {
             title={company.company_name}
             className="company-style"
             // Handle Deletion
-            extra={
-              <Icon type="close" />
-            }
+            extra={<Icon type="close" />}
             headStyle={{ fontSize: 22 }}
             style={{ position: "relative" }}
           >
@@ -48,7 +48,12 @@ export default function DisplayCompanyOverview(props) {
           </Card>
         </Col>
       </Row>
-      <DisplayOffices offices={offices} companyID={companyID} />
+      <DisplayOffices
+        offices={offices}
+        companyID={companyID}
+        showModalDeletion={showModalDeletion}
+        handleOfficeDelete={handleOfficeDelete}
+      />
     </React.Fragment>
   );
 }

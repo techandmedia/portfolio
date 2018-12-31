@@ -28,10 +28,23 @@ class App extends React.Component {
     visible: false
   };
 
+  // ===============  Life Cycle Hooks ===========================
   componentDidMount() {
     this.getDataCompanies();
     this.getDataOffices();
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.handleStatusAdd();
+    if (prevState.status !== this.state.status) {
+      this.getDataCompanies();
+      this.getDataOffices();
+    }
+  }
+
+  // =============================================================
+
+  // =========== Get Data from API ===============================
 
   getDataCompanies = () => {
     getCompanies(URL).then(result => {
@@ -53,13 +66,53 @@ class App extends React.Component {
     return null;
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    this.handleStatusAdd();
-    if (prevState.status !== this.state.status) {
-      this.getDataCompanies();
-      this.getDataOffices();
+  // ===============================================================
+
+  // =============== Delete Company / Office =======================
+
+  handleOfficeDelete = item => {
+    const officeID = item.item.officeID;
+    console.log(officeID);
+    this.setState({
+      officeID: officeID,
+      companyID: 0
+    })
+  };
+
+  showModalDeletion = () => {
+    const companyID = this.state.companyID;
+    const officeID = this.state.officeID;
+    console.log(companyID, officeID);
+    this.setState({
+      visible: true
+    });
+  };
+
+  handleModalOk = () => {
+    const companyID = this.state.companyID;
+    const officeID = this.state.officeID;
+    console.log(companyID, officeID);
+    if (companyID) {
+      deleteCompany(URL, companyID);
+      this.setState({companyID: 0})
+    } else if (officeID) {
+      deleteOffice(URL, officeID);
     }
-  }
+    this.setState({
+      visible: false,
+      overView: false,
+      isCompany: true
+    });
+  };
+
+  handleModalCancel = e => {
+    // console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+
+  // =============================================================
 
   handleCompanyChange = item => {
     this.setState({
@@ -77,6 +130,8 @@ class App extends React.Component {
       }
     });
   };
+
+  
 
   handleOverViewChange = () => {
     // console.log(number)
@@ -96,37 +151,7 @@ class App extends React.Component {
     }
   };
 
-  showModalDeletion = () => {
-    console.log("comp", this.state.companyID, this.state.officeID);
-
-    this.setState({
-      visible: true
-    });
-    // if (companyID) {
-    //   this.handleModalOk(companyID);
-    // }
-  };
-
-  handleModalOk = () => {
-    const companyID = this.state.companyID;
-    const officeID = this.state.officeID;
-    console.log(companyID, officeID);
-    if (companyID) {
-      deleteCompany(URL, companyID);
-    }
-    this.setState({
-      visible: false,
-      overView: false,
-      isCompany: true
-    });
-  };
-
-  handleModalCancel = e => {
-    // console.log(e);
-    this.setState({
-      visible: false
-    });
-  };
+  
 
   render() {
     const {
@@ -145,7 +170,8 @@ class App extends React.Component {
       handleOverViewChange,
       showModalDeletion,
       handleModalOk,
-      handleModalCancel
+      handleModalCancel,
+      handleOfficeDelete
     } = this;
     // console.log(companies);
     // console.log(offices);
@@ -204,6 +230,7 @@ class App extends React.Component {
               offices={offices}
               handleOverViewChange={handleOverViewChange}
               showModalDeletion={showModalDeletion}
+              handleOfficeDelete={handleOfficeDelete}
             />
           ) : isCompany ? (
             <DisplayCompanies

@@ -7,7 +7,6 @@ class DisplayCompany extends React.Component {
   };
 
   componentDidMount() {
-    // console.log("cdm", this.state.dataOffices);
     this.getOfficeData();
   }
 
@@ -38,7 +37,7 @@ class DisplayCompany extends React.Component {
 
   render() {
     const { dataOffices } = this.state;
-    const { handleDeleteItem } = this.props;
+    const { showModalDeletion, handleOfficeDelete } = this.props;
     const length = dataOffices.length === 0 ? true : false;
 
     if (length === false) {
@@ -53,14 +52,14 @@ class DisplayCompany extends React.Component {
               grid={{ gutter: 32, column: 2 }}
               dataSource={dataOffices}
               renderItem={item => (
-                <List.Item key={item.officeID}>
+                <List.Item
+                  // key={item.officeID}
+                  onClick={() => handleOfficeDelete({ item })}
+                >
                   <Card
                     title={item.officeName}
                     extra={
-                      <Icon
-                        type="close"
-                        onClick={() => handleDeleteItem(false, item.officeID)}
-                      />
+                      <Icon type="close" onClick={() => showModalDeletion()} />
                     }
                     className="company-style"
                   >

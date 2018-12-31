@@ -6,6 +6,8 @@ export function deleteCompany(URL, company_id) {
   // axios.delete(URL + `api/prospace_companies_delete/${company_id}`);
 }
 
-export function deleteOffice(office_id) {
-  return axios.delete(URL + `api/prospace_offices_delete/${office_id}`);
+export function deleteOffice(URL, office_id) {
+  console.log("sampai office");
+  return null;
+  // return axios.delete(URL + `api/prospace_offices_delete/${office_id}`);
 }
