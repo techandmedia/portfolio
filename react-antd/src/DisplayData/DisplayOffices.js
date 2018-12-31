@@ -60,7 +60,7 @@ class DisplayCompany extends React.Component {
   };
 
   componentDidMount() {
-    // console.log("cdm")
+    console.log("cdm", this.state.dataOffices)
     this.getOfficeData();
   }
 

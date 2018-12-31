@@ -28,7 +28,7 @@ class App extends React.Component {
     this.getDataCompanies();
     this.getDataOffices();
   }
-  
+
   getDataCompanies = () => {
     getCompanies(URL).then(result => {
       this.setState({
@@ -53,6 +53,7 @@ class App extends React.Component {
     this.handleStatusAdd();
     if (prevState.status !== this.state.status) {
       this.getDataCompanies();
+      this.getDataOffices();
     }
   }
 
@@ -123,7 +124,12 @@ class App extends React.Component {
             <CreateCompany URL={URL} handleStatusAdd={handleStatusAdd} />
           </Col>
           <Col md={{ span: 8, offset: 0 }}>
-            <CreateOffice URL={URL} offices={offices} companies={companies} />
+            <CreateOffice
+              URL={URL}
+              offices={offices}
+              companies={companies}
+              handleStatusAdd={handleStatusAdd}
+            />
           </Col>
         </Row>
         <Row style={{ marginBottom: -10 }}>

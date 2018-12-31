@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, Select, Row, Col, Card, Button } from "antd";
+import { formItemLayout, tailFormItemLayout } from "../Basic/FormLayout";
 import { success, info } from "../Basic/InformationModal";
 
 import { postCompanies } from "../Fetch/PostData";
@@ -16,7 +17,7 @@ class CreateCompany extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values);
+      // console.log(values);
       const company_name = values.company_name;
       const address = values.address;
       const revenue = values.revenue;
@@ -61,31 +62,6 @@ class CreateCompany extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     // console.log(this.props)
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 4 },
-        sm: { span: 8 },
-        md: { span: 24 }
-      },
-      wrapperCol: {
-        xs: { span: 4 },
-        sm: { span: 8 },
-        md: { span: 24 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
 
     const prefixSelector = getFieldDecorator("prefix", {
       initialValue: "62"

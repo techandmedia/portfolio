@@ -10,6 +10,7 @@ import {
   Cascader,
   DatePicker
 } from "antd";
+import { formItemLayout, tailFormItemLayout } from "../Basic/FormLayout";
 import { success, error, info, warning } from "../Basic/InformationModal";
 
 import { postOffices } from "../Fetch/PostData";
@@ -51,62 +52,43 @@ class CreateOffice extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      const rangeValue = fieldsValue["range-picker"];
-      const rangeTimeValue = fieldsValue["range-time-picker"];
-      const values = {
-        ...fieldsValue,
-        "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD"),
-        "date-time-picker": fieldsValue["date-time-picker"].format(
-          "YYYY-MM-DD HH:mm:ss"
-        ),
-        "month-picker": fieldsValue["month-picker"].format("YYYY-MM"),
-        "range-picker": [
-          rangeValue[0].format("YYYY-MM-DD"),
-          rangeValue[1].format("YYYY-MM-DD")
-        ],
-        "range-time-picker": [
-          rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
-          rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss")
-        ],
-        "time-picker": fieldsValue["time-picker"].format("HH:mm:ss")
+      let todayDate = new Date();
+      let startDate = {
+        "date-picker": fieldsValue["date-picker"].format("YYYY-MM-DD")
       };
-      console.log(values);
-      console.log(fieldsValue);
-      if (!err) {
-        // registerUser(
-        //   this.props.URL,
-        //   company_name,
-        //   location,
-        //   role,
-        //   email,
-        //   password
-        // ).then(res => {
-        //   const code = res.data.code;
-        //   if (code === 700) {
-        //     error("Input Kosong", "Input tidak boleh ada yang kosong");
-        //   } else if (code === 200) {
-        //     success(
-        //       "Anda berhasil mendaftar",
-        //       "Silahkan Login untuk masuk ke dashboard Anda"
-        //     );
-        //   } else if (code === 204) {
-        //     warning(
-        //       "Email sudah terdaftar",
-        //       "Pilih login untuk masuk ke dashboard Anda atau gunakan email Account lain"
-        //     );
-        //   } else {
-        //     info(
-        //       "Masalah Koneksi",
-        //       "Ada masalah dengan koneksi Anda, harap cek koneksi internet Anda dan ulangi lagi"
-        //     );
-        //   }
-        // });
+      const office_name = fieldsValue.office_name;
+      const company_id = fieldsValue.company_id;
+      const latitude = fieldsValue.latitude;
+      const longitude = fieldsValue.longitude;
+
+      if (err) {
+        info(
+          "Error",
+          "There's something wrong with the connection, please try again latter"
+        );
+        return null;
       }
-      info(
-        "Error",
-        "There's something wrong with the connection, please try again latter"
-      );
-      console.log(err);
+      postOffices(
+        this.props.URL,
+        office_name,
+        company_id,
+        latitude,
+        longitude,
+        todayDate,
+        startDate
+      ).then(res => {
+        const code = res.data.code;
+        if (code === 200) {
+          this.props.handleStatusAdd(code);
+          success("Success", "You have succesfully created a company");
+          this.handleReset();
+        } else {
+          info(
+            "Error",
+            "There's something wrong with the connection, please try again latter"
+          );
+        }
+      });
     });
   };
 
@@ -121,31 +103,6 @@ class CreateOffice extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 4 },
-        sm: { span: 8 },
-        md: { span: 24 }
-      },
-      wrapperCol: {
-        xs: { span: 4 },
-        sm: { span: 8 },
-        md: { span: 24 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
 
     const config = {
       rules: [
@@ -166,20 +123,19 @@ class CreateOffice extends React.Component {
               fontWeight: 500,
               fontSize: 22,
               color: "#696969"
-              // textAlign: "center"
             }}
           >
-            <Form layout="vertical" >
+            <Form layout="vertical" onSubmit={e => this.handleSubmit(e)}>
               <FormItem
                 {...formItemLayout}
                 label={"Name"}
                 className="label-style"
               >
-                {getFieldDecorator("company_name", {
+                {getFieldDecorator("office_name", {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your company name!",
+                      message: "Please input your office name!",
                       whitespace: false
                     }
                   ]
@@ -226,7 +182,6 @@ class CreateOffice extends React.Component {
 
               <FormItem {...formItemLayout} label="Company">
                 {getFieldDecorator("company_id", {
-                  // initialValue: ["Admin"],
                   rules: [
                     {
                       required: true,
@@ -238,7 +193,7 @@ class CreateOffice extends React.Component {
               <FormItem {...tailFormItemLayout}>
                 <Button
                   type="primary"
-                  onClick={(e) => this.handleSubmit(e)}
+                  htmlType="submit"
                   style={{ marginBottom: -60 }}
                 >
                   Create

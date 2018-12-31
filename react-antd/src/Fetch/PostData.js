@@ -19,17 +19,19 @@ export function postCompanies(
 
 export function postOffices(
   URL,
-  company_id,
   office_name,
+  company_id,
   latitude,
-  log,
-  start_date
+  longitude,
+  todayDate,
+  startDate
 ) {
   return axios.post(URL + "api/prospace_offices_new", {
     company_id: company_id,
     office_name: office_name,
     latitude: latitude,
-    log: log,
-    start_date: start_date
+    log: longitude,
+    start_date: startDate,
+    date_created: todayDate
   });
 }
