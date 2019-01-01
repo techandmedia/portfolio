@@ -19,6 +19,7 @@ const URL =
 class App extends React.Component {
   state = {
     isCompany: false,
+    isOffice: false,
     companies: [],
     company: {},
     offices: [],
@@ -26,12 +27,13 @@ class App extends React.Component {
     companyID: 0,
     officeID: 0,
     overView: false,
-    visible: false
+    visible: false,
+    status: false
   };
 
   // Binding function in onClick or onSubmit
-  
-  // Take note: this create new function and cause React to 
+
+  // Take note: this create new function and cause React to
   // re render each time this function got called
   // onClick={() => handleClick({ item })}
   // onClick={(e) => handleClick(e)}
@@ -42,9 +44,9 @@ class App extends React.Component {
   // if you need to receive an event(e), call it like this
   // this.handleSubmit.bind(this)}
   // if it's a props
-  // props.handleSubmit.bind(this)} 
+  // onClick={props.handleSubmit.bind(this)}
   // or with destructuring
-  // handleSubmit.bind(this)}
+  // onClick={handleSubmit.bind(this)}
 
   // ===============  Life Cycle Hooks ===========================
 
@@ -54,6 +56,8 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log("prevState.status", prevState.status);
+    // console.log("thisstate.status", this.state.status);
     this.handleUpdateChange();
     if (prevState.status !== this.state.status) {
       this.getDataCompanies();
@@ -107,9 +111,9 @@ class App extends React.Component {
   };
 
   showModalDeletion = () => {
-    const companyID = this.state.companyID;
-    const officeID = this.state.officeID;
-    console.log(companyID, officeID);
+    // const companyID = this.state.companyID;
+    // const officeID = this.state.officeID;
+    // console.log(companyID, officeID);
     this.setState({
       visible: true
     });
@@ -136,7 +140,7 @@ class App extends React.Component {
         if (code === 200) {
           this.handleUpdateChange(code);
           success("Success", "You have succesfully deleted a office!");
-          this.setState({ officeID: 0 });
+          this.setState({ officeID: 0, overView: true });
         } else {
           info("Info", "Deletion failed. Check your connection!");
         }
@@ -161,7 +165,7 @@ class App extends React.Component {
   // Make individual company
 
   handleCompanyChange = item => {
-    console.log(item)
+    // console.log(item)
     this.setState({
       companyID: item.item.company_id,
       isOffice: true,
@@ -188,6 +192,12 @@ class App extends React.Component {
     });
   };
 
+  handleStayInOverview = () => {
+    this.setState({
+      // isOffice: true,
+      overView: false
+    });
+  };
   // =================================================================
 
   // ====== Check Status (Add, Delete, Update) =======================
@@ -221,7 +231,8 @@ class App extends React.Component {
       showModalDeletion,
       handleModalOk,
       handleModalCancel,
-      handleOfficeDelete
+      handleOfficeDelete,
+      handleStayInOverview
     } = this;
     // console.log(companies);
     // console.log(offices);
@@ -240,7 +251,12 @@ class App extends React.Component {
         </h2>
         <Row>
           <Col md={{ span: 8, offset: 4 }}>
-            <CreateCompany URL={URL} handleUpdateChange={handleUpdateChange} />
+            <CreateCompany
+              URL={URL}
+              handleUpdateChange={handleUpdateChange}
+              handleStayInOverview={handleStayInOverview}
+              overView={overView}
+            />
           </Col>
           <Col md={{ span: 8, offset: 0 }}>
             <CreateOffice
@@ -248,6 +264,8 @@ class App extends React.Component {
               offices={offices}
               companies={companies}
               handleUpdateChange={handleUpdateChange}
+              handleStayInOverview={handleStayInOverview}
+              overView={overView}
             />
           </Col>
         </Row>

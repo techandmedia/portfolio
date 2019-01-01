@@ -49,6 +49,7 @@ class CreateOffice extends React.Component {
       const latitude = fieldsValue.latitude;
       const longitude = fieldsValue.longitude;
       const startDate = fieldsValue.start_date;
+      const { overView, handleStayInOverview } = this.props;
 
       if (err) {
         info(
@@ -69,7 +70,10 @@ class CreateOffice extends React.Component {
         const code = res.data.code;
         if (code === 200) {
           this.props.handleUpdateChange(code);
-          success("Success", "You have succesfully created a company");
+          success("Success", "You have succesfully created a office");
+          if (overView) {
+            handleStayInOverview();
+          }
           this.handleReset();
         } else {
           info(

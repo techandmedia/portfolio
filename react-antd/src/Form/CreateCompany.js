@@ -25,6 +25,12 @@ class CreateCompany extends React.Component {
       const phone_country_code = values.prefix;
       const phone_number = values.phone;
 
+      const {
+        overView,
+        handleStayInOverview,
+        handleUpdateChange
+      } = this.props;
+
       if (!err) {
         postCompanies(
           this.props.URL,
@@ -36,8 +42,11 @@ class CreateCompany extends React.Component {
         ).then(res => {
           const code = res.data.code;
           if (code === 200) {
-            this.props.handleUpdateChange(code);
+            handleUpdateChange(code);
             success("Success", "You have succesfully created a company");
+            if (overView) {
+              handleStayInOverview();
+            }
             this.handleReset();
           } else {
             info(
