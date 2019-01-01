@@ -1,3 +1,8 @@
+## UPDATE - 1
+Included in the server folder is a sql file which you can import using phpmyadmin. The file is located in config folder. The database name in the sql file is `andri` but the database I am using is `dv259321_inventory`, so don't forget to change it in the config file.
+
+The database `dv259321_inventory` contain many tables which are not necessary for this one.
+
 ## REST API
 
 There's nothing fancy with this rest server, which require the following:
