@@ -16,6 +16,7 @@ class CreateCompany extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    // console.log(e)
     this.props.form.validateFieldsAndScroll((err, values) => {
       // console.log(values);
       const company_name = values.company_name;
@@ -87,7 +88,7 @@ class CreateCompany extends React.Component {
               color: "#696969"
             }}
           >
-            <Form layout="vertical" onSubmit={e => this.handleSubmit(e)}>
+            <Form layout="vertical" onSubmit={this.handleSubmit.bind(this)}>
               <FormItem
                 {...formItemLayout}
                 label={"Name"}

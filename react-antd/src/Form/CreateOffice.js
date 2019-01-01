@@ -114,7 +114,7 @@ class CreateOffice extends React.Component {
               color: "#696969"
             }}
           >
-            <Form layout="vertical" onSubmit={e => this.handleSubmit(e)}>
+            <Form layout="vertical" onSubmit={this.handleSubmit.bind(this)}>
               <FormItem
                 {...formItemLayout}
                 label={"Name"}

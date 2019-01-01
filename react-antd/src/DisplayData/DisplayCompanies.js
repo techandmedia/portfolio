@@ -16,12 +16,12 @@ function DisplayCompany(props) {
             grid={{ gutter: 32, column: 2 }}
             dataSource={companies}
             renderItem={item => (
-              <List.Item onClick={() => handleCompanyChange({ item })}>
+              <List.Item onClick={handleCompanyChange.bind(this,{ item })}>
                 <Card
                   title={item.company_name}
                   className="company-style"
                   extra={
-                    <Icon type="close" onClick={() => showModalDeletion()} />
+                    <Icon type="close" onClick={showModalDeletion} />
                   }
                 >
                   <p style={{ fontWeight: "bold" }}>Address:</p>

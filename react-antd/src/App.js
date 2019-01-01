@@ -29,6 +29,23 @@ class App extends React.Component {
     visible: false
   };
 
+  // Binding function in onClick or onSubmit
+  
+  // Take note: this create new function and cause React to 
+  // re render each time this function got called
+  // onClick={() => handleClick({ item })}
+  // onClick={(e) => handleClick(e)}
+  // if you don't need to pass an argument, just called like this:
+  // onClick={handleCompanyChange}
+  // if you need the argument, then bind with this
+  // onClick={handleCompanyChange.bind(this,{ item })}
+  // if you need to receive an event(e), call it like this
+  // this.handleSubmit.bind(this)}
+  // if it's a props
+  // props.handleSubmit.bind(this)} 
+  // or with destructuring
+  // handleSubmit.bind(this)}
+
   // ===============  Life Cycle Hooks ===========================
 
   componentDidMount() {
@@ -73,7 +90,7 @@ class App extends React.Component {
   // =============== Delete Company / Office =======================
 
   handleOfficeDelete = item => {
-    console.log(item);
+    // console.log(item);
     let data = item.item;
     const officeID = item.item.officeID;
     // ====== Make Individual Office ==============
@@ -144,6 +161,7 @@ class App extends React.Component {
   // Make individual company
 
   handleCompanyChange = item => {
+    console.log(item)
     this.setState({
       companyID: item.item.company_id,
       isOffice: true,

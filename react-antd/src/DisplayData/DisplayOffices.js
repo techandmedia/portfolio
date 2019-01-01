@@ -54,12 +54,12 @@ class DisplayCompany extends React.Component {
               renderItem={item => (
                 <List.Item
                   // key={item.officeID}
-                  onClick={() => handleOfficeDelete({ item })}
+                  onClick={handleOfficeDelete.bind(this,{ item })}
                 >
                   <Card
                     title={item.officeName}
                     extra={
-                      <Icon type="close" onClick={() => showModalDeletion()} />
+                      <Icon type="close" onClick={showModalDeletion} />
                     }
                     className="company-style"
                   >

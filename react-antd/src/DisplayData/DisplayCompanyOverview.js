@@ -40,7 +40,7 @@ export default function DisplayCompanyOverview(props) {
               ({company.phone_country_code}) {company.phone_number}
             </p>
             <Button
-              onClick={() => handleOverViewChange()}
+              onClick={handleOverViewChange}
               style={{ position: "absolute", right: 10, bottom: 20 }}
             >
               Back to Overview
