@@ -6,7 +6,7 @@ I built this project with the following in minds:
 3. Easy to test and scale
 
 Simplicity means:
-1. Not using Redux although it's part of the requirements. I am using Redux before and I am not interested in using it again; the most thing I don't like about Redux is that it added complexity with its verbose syntax and code structure. And it's againts React'state one way data flow where Redux using global scope for data!
+1. Not using Redux although it's part of the requirements. I used Redux before and I am not interested in using it again; the thing I don't like most about Redux is that it added complexity with its verbose syntax and code structure. And it's againts React'state one way data flow where Redux using global scope for data! Of course I will use it again if the team already use it.
 2. Using [Ant Design](https://ant.design/) CSS library to fasten development; it also has complete component solution for React though it's not easy at first. I have been using it as a primary CSS solution, though sometimes I use [styled-components](https://www.styled-components.com/) as well.
 3. Use CRA v2 so not to create boilerplate project from scratch.
 4. Using [axios](https://github.com/axios/axios) instead `fetch` when performing AJAX request. It's less verbose than using `fetch` and sometimes I face problem using `fetch` which strangely I've never have any problem when using `axios`.
@@ -17,15 +17,16 @@ I have yet to test this project using standard code testing (with Jest or simili
 
 Using this project is easy:
 1. `git clone https://github.com/techandmedia/portfolio.git` 
-2. `git checkout prospace`
-3. `cd` into the just created folder
-4. `npm install` or `yarn`
-5. `npm start` or `yarn start`
+2. When the cloned complete, go to portfolio folder `cd portfolio` 
+3. Checkout to the prospace branch: `git checkout prospace` then `cd react-antd`
+4. Run `npm install` or `yarn`
+5. Run `npm start` or `yarn start`
 6. The app will run on [http://localhost:3000](http://localhost:3000)
 
 That's it!
 (btw, I am using React 16.7.0 alpha just for Hooks testing. This app can be used with any of React v16)
 
+## Server
 For the Server part, go [here](https://github.com/techandmedia/portfolio/tree/prospace/server) 
 
 ==============================================================

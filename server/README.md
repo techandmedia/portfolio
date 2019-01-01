@@ -6,7 +6,7 @@ There's nothing fancy with this rest server, which require the following:
 `user: 'andri', password: '123', database: 'dv259321_inventory'`
 3. Or you can define your own database configuration however you like it, it's located in the following folder: `server/config/config-MySQL.js`
 4. Install nodemon as global `npm install -g nodemon`
-5. If you already clone it, run `npm install` or `yarn`
+5. If you already clone it, `cd` into `server` folder and then run `npm install` or `yarn`
 6. Then run `npm start` or `yarn start`
 7. API Server will run on [http://localhost:5001](http://localhost:5001)
 
