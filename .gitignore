@@ -50,3 +50,6 @@ react-antd/yarn-error.log*
 # ===================================
 # SERVER
 server/node_modules
+
+# ===================================
+next-ant-design
