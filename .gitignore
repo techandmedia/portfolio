@@ -47,6 +47,32 @@ react-antd/npm-debug.log*
 react-antd/yarn-debug.log*
 react-antd/yarn-error.log*
 
+# =========================================
+# Nextjs antd #
+# dependencies
+next-ant-design/node_modules
+next-ant-design/.pnp
+next-ant-design/.pnp.js
+
+# testing
+next-ant-design/coverage
+
+# production
+next-ant-design/build
+
+# misc
+next-ant-design/.DS_Store
+next-ant-design/.env.local
+next-ant-design/.env.development.local
+next-ant-design/.env.test.local
+next-ant-design/.env.production.local
+
+next-ant-design/npm-debug.log*
+next-ant-design/yarn-debug.log*
+next-ant-design/yarn-error.log*
+
+# ===================================
+
 # ===================================
 # SERVER
 server/node_modules

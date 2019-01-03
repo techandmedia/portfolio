@@ -88,28 +88,40 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 23);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 23:
+/***/ "./node_modules/next/dist/pages/_error.js":
+/*!************************************************!*\
+  !*** ./node_modules/next/dist/pages/_error.js ***!
+  \************************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(24);
+module.exports = __webpack_require__(/*! next/error */ "next/error")
 
 
 /***/ }),
 
-/***/ 24:
+/***/ 2:
+/*!******************************************************!*\
+  !*** multi ./node_modules/next/dist/pages/_error.js ***!
+  \******************************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(25)
+module.exports = __webpack_require__(/*! D:\Users\Andri\Google Drive\Web Development\Portfolio\next-ant-design\node_modules\next\dist\pages\_error.js */"./node_modules/next/dist/pages/_error.js");
 
 
 /***/ }),
 
-/***/ 25:
+/***/ "next/error":
+/*!*****************************!*\
+  !*** external "next/error" ***!
+  \*****************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = require("next/error");
@@ -117,3 +129,4 @@ module.exports = require("next/error");
 /***/ })
 
 /******/ });
+//# sourceMappingURL=_error.js.map
