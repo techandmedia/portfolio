@@ -1,34 +1,32 @@
 import React from "react";
-import { Row, Col } from "antd";
-import CreateCompany from "./Form/CreateCompany";
-import CreateOffice from "./Form/CreateOffice";
-import DisplayCompanies from "./DisplayData/DisplayCompanies";
-import DisplayCompanyOverview from "./DisplayData/DisplayCompanyOverview";
+import { Row, Col, Layout } from "antd";
+
+import TopNavigation from "./Navigation/TopNavigation";
+import CreateResponden from "./Form/CreateResponden";
+import UserDashboard from "./Dashboard/UserDashboard";
+import SignIn from "./Form/Signin";
 
 import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
-import { getCompanies, getOffices } from "./Fetch/GetData";
+import { getResponden, getTeladan, getRole } from "./Fetch/GetData";
+import { postUser } from "./Fetch/PostData";
 
 import ModalDeletion from "./Basic/ModalDeletion";
 import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
+import Dashboard from "./Dashboard/UserDashboard";
 
 const URL =
   process.env.NODE_ENV === "production" ? Config.prodURL : Config.devURL;
 
 class App extends React.Component {
   state = {
-    isCompany: false,
-    isOffice: false,
-    companies: [],
-    company: {},
-    offices: [],
-    office: {},
-    companyID: 0,
-    officeID: 0,
-    overView: false,
     visible: false,
-    status: false
+    status: false,
+    route: "new",
+    currentUser: { full_name: "Guest" },
+    isSignedIn: false,
+    loggedIn: false
   };
 
   // Binding function in onClick or onSubmit
@@ -51,8 +49,8 @@ class App extends React.Component {
   // ===============  Life Cycle Hooks ===========================
 
   componentDidMount() {
-    this.getDataCompanies();
-    this.getDataOffices();
+    // this.getDataCompanies();
+    // this.getDataOffices();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -69,21 +67,44 @@ class App extends React.Component {
 
   // =========== Get Data from API ===============================
 
-  getDataCompanies = () => {
-    getCompanies(URL).then(result => {
+  getDataResponden = (URL, full_name) => {
+    getResponden(URL, full_name).then(result => {
+      const data = result.data[0];
+      // console.log(result, full_name);
       this.setState({
-        companies: result.data,
-        isCompany: true
+        currentUser: {
+          id: data.user_id,
+          nip_nim: data.nip_nim,
+          full_name: data.full_name,
+          role_name: data.role_name
+        },
+        route: "dashboard"
       });
     });
     return null;
   };
 
-  getDataOffices = () => {
-    getOffices(URL).then(result => {
+  loadUser = data => {
+    console.log(data);
+    // this.setState({
+    //   users: {
+    //     id: data.id,
+    //     first_name: data.first_name,
+    //     last_name: data.last_name,
+    //     email: data.email,
+    //     role: data.role
+    //   }
+    // });
+  };
+
+  getDataRole = () => {
+    getRole(URL).then(response => {
       this.setState({
-        offices: result.data,
-        isOffice: true
+        role: response.data.map(data => ({
+          id: data.role_id,
+          value: data.role_id, // Jangan ambil name nya, tapi ambil id nya untuk menghemat size di database
+          label: data.role_name
+        }))
       });
     });
     return null;
@@ -92,23 +113,6 @@ class App extends React.Component {
   // ===============================================================
 
   // =============== Delete Company / Office =======================
-
-  handleOfficeDelete = item => {
-    // console.log(item);
-    let data = item.item;
-    const officeID = item.item.officeID;
-    // ====== Make Individual Office ==============
-    this.setState({
-      officeID: officeID,
-      companyID: 0,
-      office: {
-        officeName: data.officeName,
-        lat: data.lat,
-        log: data.log,
-        date: data.date
-      }
-    });
-  };
 
   showModalDeletion = () => {
     // const companyID = this.state.companyID;
@@ -164,40 +168,24 @@ class App extends React.Component {
   // ======== Handle View Change =================================
   // Make individual company
 
-  handleCompanyChange = item => {
-    // console.log(item)
-    this.setState({
-      companyID: item.item.company_id,
-      isOffice: true,
-      isCompany: false,
-      overView: true,
-      company: {
-        company_id: item.item.company_id,
-        company_name: item.item.company_name,
-        address: item.item.address,
-        phone_country_code: item.item.phone_country_code,
-        phone_number: item.item.phone_number,
-        revenue: item.item.revenue
-      }
-    });
+  onRouteChange = route => {
+    if (route === "dashboard") {
+      this.setState({
+        route: "dashboard"
+      });
+    } else if (route === "admin") {
+      this.setState({
+        route: "admin"
+      });
+    } else if (route === "admin-dashboard") {
+      this.setState({
+        route: "admin-dashboard"
+      });
+    }
   };
 
-  handleOverViewChange = () => {
-    // console.log(number)
-    this.setState({
-      isOffice: true,
-      isCompany: true,
-      companyID: 0,
-      overView: false
-    });
-  };
+  handleLogin = () => {};
 
-  handleStayInOverview = () => {
-    this.setState({
-      // isOffice: true,
-      overView: false
-    });
-  };
   // =================================================================
 
   // ====== Check Status (Add, Delete, Update) =======================
@@ -213,126 +201,53 @@ class App extends React.Component {
   // =============== Render ===========================================
 
   render() {
-    const {
-      isCompany,
-      companies,
-      offices,
-      companyID,
-      officeID,
-      overView,
-      company,
-      office,
-      visible
-    } = this.state;
-    const {
-      handleCompanyChange,
-      handleUpdateChange,
-      handleOverViewChange,
-      showModalDeletion,
-      handleModalOk,
-      handleModalCancel,
-      handleOfficeDelete,
-      handleStayInOverview
-    } = this;
+    const { route, currentUser, isSignedIn } = this.state;
+    const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     // console.log(companies);
     // console.log(offices);
 
     return (
-      <React.Fragment>
-        <h2
+      <Layout>
+        <TopNavigation
+          currentUser={currentUser}
+          onRouteChange={onRouteChange}
+        />
+        <Row
+          type="flex"
+          justify="center"
           style={{
-            fontWeight: 500,
-            textAlign: "center",
-            marginTop: 30,
-            marginBottom: -10
+            // marginTop: "1em",
+            padding: "1em"
           }}
         >
-          COMPANY INFORMATION MANAGEMENT FORM
-        </h2>
-        <Row>
-          <Col md={{ span: 8, offset: 4 }}>
-            <CreateCompany
+          {route === "admin-dashboard" ? (
+            <h1>Menu Admin Dashboard</h1>
+          ) : route === "admin" ? (
+            <SignIn
               URL={URL}
-              handleUpdateChange={handleUpdateChange}
-              handleStayInOverview={handleStayInOverview}
-              overView={overView}
+              loadUser={loadUser}
+              onRouteChange={onRouteChange}
             />
-          </Col>
-          <Col md={{ span: 8, offset: 0 }}>
-            <CreateOffice
-              URL={URL}
-              offices={offices}
-              companies={companies}
-              handleUpdateChange={handleUpdateChange}
-              handleStayInOverview={handleStayInOverview}
-              overView={overView}
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: -10 }}>
-          <Col md={{ span: 8, offset: 4 }}>
-            <h2
-              style={{
-                fontWeight: 500,
-                marginLeft: 30
-              }}
-            >
-              Companies
-            </h2>
-            <p
-              style={{
-                fontWeight: "bold",
-                marginLeft: 30,
-                marginTop: -10
-              }}
-            >
-              Please Select a Company
-            </p>
-          </Col>
-        </Row>
-        <Row>
-          {overView ? (
-            <DisplayCompanyOverview
-              companyID={companyID}
-              company={company}
-              offices={offices}
-              handleOverViewChange={handleOverViewChange}
-              showModalDeletion={showModalDeletion}
-              handleOfficeDelete={handleOfficeDelete}
-            />
-          ) : isCompany ? (
-            <DisplayCompanies
-              companies={companies}
-              handleCompanyChange={handleCompanyChange}
-              showModalDeletion={showModalDeletion}
-            />
+          ) : route === "dashboard" ? (
+            <Col sm={{ span: 24, offset: 0 }}>
+              <UserDashboard currentUser={currentUser} URL={URL} />
+            </Col>
           ) : (
-            <Col md={{ span: 24, offset: 0 }}>
-              <p
-                style={{
-                  marginTop: 10,
-                  marginBottom: 200,
-                  fontSize: 20,
-                  fontWeight: 500,
-                  color: "violet",
-                  textAlign: "center"
-                }}
-              >
-                There's no company created yet
-              </p>
+            <Col sm={{ span: 24, offset: 0 }}>
+              <CreateResponden
+                URL={URL}
+                getUser={getUser}
+                getDataResponden={getDataResponden}
+              />
             </Col>
           )}
         </Row>
-        <ModalDeletion
+        {/* <ModalDeletion
           visible={visible}
           handleModalOk={handleModalOk}
           handleModalCancel={handleModalCancel}
-          companyID={companyID}
-          officeID={officeID}
-          company={company}
-          office={office}
-        />
-      </React.Fragment>
+        /> */}
+      </Layout>
     );
   }
 }

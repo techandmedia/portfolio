@@ -1,5 +1,5 @@
 body {
-  margin-top: -25px;
+  /* margin-top: -25px; */
   /* margin-bottom: 25px; */
   padding: 0;
 }
@@ -44,4 +44,9 @@ body {
   font-size: 26;
   /* color: red; */
   line-height: 0.5;
+}
+
+.ant-form-item-label label {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
 }

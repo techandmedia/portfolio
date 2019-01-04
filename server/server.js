@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 // Route
-const routeProspace = require('./routes/route-prospace')
+const routeProspace = require("./routes/route-prospace");
+const routeKuesioner = require("./routes/route-kuesioner");
 
 server.use(cors());
 server.use(compression());
@@ -20,5 +21,4 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 // New Route
 server.use(routeProspace);
-
-
+server.use(routeKuesioner);

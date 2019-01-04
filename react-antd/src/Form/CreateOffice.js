@@ -16,7 +16,7 @@ import { postOffices } from "../Fetch/PostData";
 
 const FormItem = Form.Item;
 
-class CreateOffice extends React.Component {
+class CreateResponden extends React.Component {
   state = {
     companies: []
   };
@@ -183,6 +183,7 @@ class CreateOffice extends React.Component {
                   ]
                 })(<Cascader options={this.state.companies} />)}
               </FormItem>
+              
               <FormItem {...tailFormItemLayout}>
                 <Button
                   type="primary"
@@ -200,6 +201,6 @@ class CreateOffice extends React.Component {
   }
 }
 
-const WrappedCreateOffice = Form.create()(CreateOffice);
+const WrappedResponden = Form.create()(CreateResponden);
 
-export default WrappedCreateOffice;
+export default WrappedResponden;

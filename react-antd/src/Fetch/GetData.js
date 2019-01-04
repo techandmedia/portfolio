@@ -1,9 +1,28 @@
 import axios from "axios";
 
-export function getCompanies(URL) {
-  return axios.get(URL + "api/prospace_companies");
+const rs = "responden";
+const pt = "penilaian_teladan";
+// const ps = "penilaian_sendiri";
+const us = "users";
+
+export function getTeladan(URL) {
+  return axios.get(URL + `api/${pt}`);
 }
 
-export function getOffices(URL) {
-  return axios.get(URL + "api/prospace_offices");
+export function getUsers(URL) {
+  return axios.get(URL + `api/${us}`);
+}
+
+export function getRole(URL) {
+  return axios.get(URL + "api/role");
+}
+
+export function getSoal(URL) {
+  return axios.get(URL + "api/soal");
+}
+
+export function getResponden(URL, full_name) {
+  return axios.post(URL + `api/${rs}/${rs}`, {
+    full_name: full_name
+  });
 }
