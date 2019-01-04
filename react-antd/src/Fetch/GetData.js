@@ -4,9 +4,14 @@ const rs = "responden";
 const pt = "penilaian_teladan";
 // const ps = "penilaian_sendiri";
 const us = "users";
+const pp = "penilaian_penilai";
 
 export function getTeladan(URL) {
   return axios.get(URL + `api/${pt}`);
+}
+
+export function getPenilaianPenilai(URL) {
+  return axios.get(URL + `api/${pp}`);
 }
 
 export function getUsers(URL) {

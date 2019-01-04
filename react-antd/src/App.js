@@ -5,6 +5,7 @@ import TopNavigation from "./Navigation/TopNavigation";
 import CreateResponden from "./Form/CreateResponden";
 import UserDashboard from "./Dashboard/UserDashboard";
 import SignIn from "./Form/Signin";
+import AdminDashboard from "./Dashboard/AdminDashboard";
 
 import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
 import { getResponden, getTeladan, getRole } from "./Fetch/GetData";
@@ -23,10 +24,9 @@ class App extends React.Component {
   state = {
     visible: false,
     status: false,
-    route: "new",
+    route: "home",
     currentUser: { full_name: "Guest" },
-    isSignedIn: false,
-    loggedIn: false
+    isSignedIn: false
   };
 
   // Binding function in onClick or onSubmit
@@ -179,7 +179,13 @@ class App extends React.Component {
       });
     } else if (route === "admin-dashboard") {
       this.setState({
-        route: "admin-dashboard"
+        route: "admin-dashboard",
+        isSignedIn: true
+      });
+    } else if (route === "home") {
+      this.setState({
+        route: "home",
+        isSignedIn: false
       });
     }
   };
@@ -211,6 +217,7 @@ class App extends React.Component {
         <TopNavigation
           currentUser={currentUser}
           onRouteChange={onRouteChange}
+          isSignedIn={isSignedIn}
         />
         <Row
           type="flex"
@@ -221,7 +228,9 @@ class App extends React.Component {
           }}
         >
           {route === "admin-dashboard" ? (
-            <h1>Menu Admin Dashboard</h1>
+            <Col sm={{ span: 12, offset: 0 }}>
+              <AdminDashboard URL={URL} />
+            </Col>
           ) : route === "admin" ? (
             <SignIn
               URL={URL}
@@ -231,6 +240,14 @@ class App extends React.Component {
           ) : route === "dashboard" ? (
             <Col sm={{ span: 24, offset: 0 }}>
               <UserDashboard currentUser={currentUser} URL={URL} />
+            </Col>
+          ) : route === "home" ? (
+            <Col sm={{ span: 24, offset: 0 }}>
+              <CreateResponden
+                URL={URL}
+                getUser={getUser}
+                getDataResponden={getDataResponden}
+              />
             </Col>
           ) : (
             <Col sm={{ span: 24, offset: 0 }}>

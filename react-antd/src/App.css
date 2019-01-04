@@ -50,3 +50,7 @@ body {
   color: rgba(0, 0, 0, 0.85);
   font-weight: bold;
 }
+
+td.ant-table-column-has-actions.ant-table-column-has-sorters {
+  cursor: pointer;
+}

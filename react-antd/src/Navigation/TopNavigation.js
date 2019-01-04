@@ -43,8 +43,9 @@ const content = (
       <SubMenu
         title={
           <span className="submenu-title-wrapper">
-            <Badge count={notifications}>
-              Welcome {currentUser}
+            <Badge count={4}>
+              Welcome
+              {/* {currentUser} */}
               <Avatar
                 shape="square"
                 icon="user"
@@ -89,12 +90,8 @@ class TopNavigation extends React.Component {
     });
     if (e.key === "login") {
       this.props.onRouteChange("admin");
-    } else if (e.key === "register") {
-      this.props.onRouteChange("register");
     } else if (e.key === "logout") {
       this.props.onRouteChange("home");
-    } else if (e.key === "siakad") {
-      this.props.onRouteChange("tentang-siakad");
     } else {
       return null;
     }
@@ -104,7 +101,7 @@ class TopNavigation extends React.Component {
     const { currentUser, isSignedIn, notifications, schoolName } = this.props;
     const { current } = this.state;
     const { handleClick } = this;
-    // console.log(window.innerWidth)
+    console.log(this.props);
 
     return (
       <Header id="header" className="clearfix">
@@ -158,14 +155,16 @@ class TopNavigation extends React.Component {
               </Menu.Item>
               <Menu.Item key="siakad">
                 <Icon type="appstore" theme="twoTone" twoToneColor="#52c41a" />
-                Welcome {currentUser.full_name}
+                Welcome
+                {/* {currentUser.full_name} */}
               </Menu.Item>
               {isSignedIn ? (
                 <SubMenu
                   title={
                     <span className="submenu-title-wrapper">
-                      <Badge count={notifications}>
-                        Welcome {currentUser}
+                      <Badge count={5}>
+                        Welcome
+                        {/* {currentUser} */}
                         <Avatar
                           shape="square"
                           icon="user"

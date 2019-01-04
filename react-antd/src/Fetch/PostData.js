@@ -4,6 +4,7 @@ const rs = "responden";
 const pt = "penilaian_teladan";
 const ps = "penilaian_sendiri";
 const ao = "anggota_organisasi";
+const pp = "penilaian_penilai";
 
 export function postResponden(URL, nip_nim, full_name, role_id) {
   return axios.post(URL + `api/${rs}_new`, {
@@ -102,5 +103,12 @@ export function loginUser(URL, admin_name, admin_pass) {
   return axios.post(URL + "api/admin_login", {
     admin_name: admin_name,
     admin_pass: admin_pass
+  });
+}
+
+// ==== Detil Penilaian ==================================
+export function getDetailPenilaian(URL, nip_nim) {
+  return axios.post(URL + `api/${pp}/${pp}`, {
+    nip_nim: nip_nim
   });
 }

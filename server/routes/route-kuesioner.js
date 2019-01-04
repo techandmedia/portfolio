@@ -7,6 +7,7 @@ const pt = "penilaian_teladan";
 const ps = "penilaian_sendiri";
 const us = "users";
 const ad = "admin";
+const pp = "penilaian_penilai"
 
 exports.getHome = router.get("/api/kuesioner", (req, res) => {
   mySQL.query(`SELECT * FROM ${users}`, (err, results) => {
@@ -23,6 +24,16 @@ exports.getTeladan = router.get(`/api/${pt}`, (req, res) => {
     res.send(JSON.stringify(results));
   });
 });
+
+// ============== Get Penilaian Penilai ================================
+exports.getTeladan = router.get(`/api/${pp}`, (req, res) => {
+  mySQL.query(`SELECT us.nip_nim, us.name, pe.total, pe.hasil FROM penilaian_penilai pe INNER JOIN users us ON pe.nip_nim = us.nip_nim ORDER BY pe.total DESC`, (err, results) => {
+    if (err) console.log(err);
+    res.send(JSON.stringify(results));
+  });
+});
+
+
 
 // ============== Get Users ================================
 exports.getRespondens = router.get(`/api/${rs}`, (req, res) => {
@@ -42,7 +53,7 @@ exports.getRespondens = router.get(`/api/${rs}`, (req, res) => {
 
 // ============== Get Responden ================================
 exports.getResponden = router.post(`/api/${rs}/${rs}`, (req, res) => {
-  console.log("tes", req.body.full_name);
+  // console.log("tes", req.body.full_name);
   var full_name = req.body.full_name;
   mySQL.query(
     `SELECT re.user_id,re.nip_nim ,re.full_name, r.role_name FROM responden re INNER JOIN role r ON re.role_id = r.role_id where re.full_name=?`,
@@ -54,6 +65,22 @@ exports.getResponden = router.post(`/api/${rs}/${rs}`, (req, res) => {
     }
   );
 });
+
+// ============== Get Detil Penilaian ================================
+exports.getResponden = router.post(`/api/${pp}/${pp}`, (req, res) => {
+  // console.log("tes", req.body.full_name);
+  var full_name = req.body.nip_nim;
+  mySQL.query(
+    `SELECT us.nip_nim, us.name,pe.p1,pe.p2,pe.p3, pe.p4, pe.total FROM penilaian_penilai pe INNER JOIN users us ON pe.nip_nim = us.nip_nim WHERE pe.nip_nim=?`,
+    [full_name],
+    (err, results) => {
+      console.log(results);
+      if (err) console.log(err);
+      res.send(JSON.stringify(results));
+    }
+  );
+});
+
 
 // ============== Get Anggota Organisasi =====================
 exports.getUsers = router.get(`/api/${us}`, (req, res) => {
