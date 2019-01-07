@@ -17,7 +17,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "startC": "cross-env NODE_PATH=src:src/Dashboard:src/DisplayData react-app-rewired start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +28,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {}
 }

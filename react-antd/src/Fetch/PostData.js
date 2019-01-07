@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const rs = "responden";
-const pt = "penilaian_teladan";
-const ps = "penilaian_sendiri";
-const ao = "anggota_organisasi";
+// const pt = "penilaian_teladan";
+// const ps = "penilaian_sendiri";
+// const ao = "anggota_organisasi";
 const pp = "penilaian_penilai";
 
 export function postResponden(URL, nip_nim, full_name, role_id) {

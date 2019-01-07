@@ -31,7 +31,7 @@ class SignIn extends React.Component {
       const admin_pass = values.password;
       if (!err) {
         loginUser(this.props.URL, admin_name, admin_pass).then(response => {
-          const user = response.data[0];
+          // const user = response.data[0];
           const code = response.data.code;
           if (code === 204) {
             error(
@@ -65,7 +65,7 @@ class SignIn extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { onRouteChange } = this.props;
+    // const { onRouteChange } = this.props;
 
     return (
       <Row

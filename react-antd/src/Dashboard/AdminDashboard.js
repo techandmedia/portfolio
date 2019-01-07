@@ -102,14 +102,14 @@ class TablePenilaian extends React.Component {
   render() {
     let {
       sortedInfo,
-      filteredInfo,
+      // filteredInfo,
       dataPenilaian,
       tabelDetil,
       tabelUtama,
       detilPenilaian
     } = this.state;
     sortedInfo = sortedInfo || {};
-    filteredInfo = filteredInfo || {};
+    // filteredInfo = filteredInfo || {};
     const columns = [
       {
         title: "NIP/NIM",

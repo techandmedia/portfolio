@@ -3,10 +3,10 @@ import {
   Cascader,
   Button,
   Radio,
-  Rate,
+  // Rate,
   Form,
   Card,
-  Input,
+  // Input,
   Row,
   Col
 } from "antd";
@@ -187,7 +187,6 @@ class Dashboard extends React.Component {
                       })(
                         <RadioGroup
                           onChange={this.onChange}
-                          value={this.state.radioValue}
                         >
                           {" "}
                           <span style={{ marginRight: 10, color: "red" }}>

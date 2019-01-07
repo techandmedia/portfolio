@@ -101,7 +101,7 @@ class TopNavigation extends React.Component {
     const { currentUser, isSignedIn, notifications, schoolName } = this.props;
     const { current } = this.state;
     const { handleClick } = this;
-    console.log(this.props);
+    // console.log(this.props);
 
     return (
       <Header id="header" className="clearfix">

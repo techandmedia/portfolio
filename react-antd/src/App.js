@@ -5,20 +5,26 @@ import TopNavigation from "./Navigation/TopNavigation";
 import CreateResponden from "./Form/CreateResponden";
 import UserDashboard from "./Dashboard/UserDashboard";
 import SignIn from "./Form/Signin";
-import AdminDashboard from "./Dashboard/AdminDashboard";
+import AdminDashboard from "Dashboard/AdminDashboard";
+// import AdminDashboard from "AdminDasboard";
 
 import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
-import { getResponden, getTeladan, getRole } from "./Fetch/GetData";
-import { postUser } from "./Fetch/PostData";
+import { getResponden, getRole } from "./Fetch/GetData";
+// import { postUser } from "./Fetch/PostData";
 
-import ModalDeletion from "./Basic/ModalDeletion";
+// import ModalDeletion from "./Basic/ModalDeletion";
 import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
-import Dashboard from "./Dashboard/UserDashboard";
+// import Dashboard from "./Dashboard/UserDashboard";
 
 const URL =
   process.env.NODE_ENV === "production" ? Config.prodURL : Config.devURL;
+
+// if (process.env.NODE_ENV !== "production") {
+//   const { whyDidYouUpdate } = require("why-did-you-update");
+//   whyDidYouUpdate(React);
+// }
 
 class App extends React.Component {
   state = {
@@ -243,6 +249,7 @@ class App extends React.Component {
             </Col>
           ) : route === "home" ? (
             <Col sm={{ span: 24, offset: 0 }}>
+              {/* <h1>Tes</h1> */}
               <CreateResponden
                 URL={URL}
                 getUser={getUser}
@@ -251,6 +258,7 @@ class App extends React.Component {
             </Col>
           ) : (
             <Col sm={{ span: 24, offset: 0 }}>
+              {/* <h1>Tes</h1> */}
               <CreateResponden
                 URL={URL}
                 getUser={getUser}

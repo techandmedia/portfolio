@@ -2,7 +2,7 @@ import React from "react";
 import {
   Form,
   Input,
-  Select,
+  // Select,
   Row,
   Col,
   Card,
@@ -45,7 +45,7 @@ class CreateResponden extends React.Component {
 
   getDataSoal = () => {
     getSoal(this.props.URL).then(response => {
-      // console.log(response);
+      console.log(response.data);
       this.setState({
         soal: response.data.map(data => ({
           id: data.soal_id,
@@ -98,7 +98,7 @@ class CreateResponden extends React.Component {
 
       const URL = this.props.URL;
 
-      const { overView, handleStayInOverview, handleUpdateChange } = this.props;
+      // const { overView, handleStayInOverview, handleUpdateChange } = this.props;
       // console.log(full_name, role_id, K030);
       // postUser(URL, full_name).then(res => {
       //   console.log(res);
@@ -210,7 +210,12 @@ class CreateResponden extends React.Component {
 
               {this.state.soal.map(data => {
                 return (
-                  <FormItem {...formItemLayout} label={data.soal} key={data.id}>
+                  <FormItem
+                    {...formItemLayout}
+                    label={data.soal}
+                    key={data.id}
+                    style={{ marginTop: 30 }}
+                  >
                     {getFieldDecorator(data.id, {
                       initialValue: 3,
                       rules: [
@@ -222,7 +227,10 @@ class CreateResponden extends React.Component {
                     })(
                       <RadioGroup
                         onChange={this.onChange}
-                        value={this.state.radioValue}
+                        // Warning: `getFieldDecorator` will override `value`,
+                        // so please don't set `value` directly and use `setFieldsValue` to set it.
+                        // Dont put value here:
+                        // value={this.state.radioValue}
                       >
                         {" "}
                         <span style={{ marginRight: 10, color: "red" }}>
