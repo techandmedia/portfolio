@@ -105,7 +105,7 @@ class TopNavigation extends React.Component {
 
     return (
       <Header id="header" className="clearfix">
-        <Popover
+        {/* <Popover
           trigger="click"
           content={content(
             isSignedIn,
@@ -114,35 +114,21 @@ class TopNavigation extends React.Component {
             currentUser,
             notifications
           )}
-          className="nav-icon"
-        >
-          {/* <FloatRightButton>
-            <Icon type="bars" theme="outlined" />
-          </FloatRightButton> */}
-        </Popover>
+          className="anticon anticon-menu nav-phone-icon"
+        > */}
+        <Icon
+          type="bars"
+          theme="outlined"
+          className="anticon anticon-menu nav-phone-icon"
+        />
+        {/* </Popover> */}
         <Row>
-          <Col xs={24} sm={24} md={7} lg={5} xl={5} xxl={5}>
-            <span
-              style={{
-                color: "#ffcecc",
-                cursor: "pointer",
-                fontSize: "1.6em",
-                fontWeight: "300"
-              }}
-              onClick={() => this.props.onRouteChange("home")}
-            >
-              {schoolName}
-            </span>
+          <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5}>
+            <a id="logo" onClick={() => this.props.onRouteChange("home")}>
+             Sistem Informasi Pengolahan Kuesioner 
+            </a>
           </Col>
-          {/* <Col xs={0} sm={1} md={1} lg={1} xl={1} xxl={1}>
-            <Search
-              className="search-box"
-              placeholder="input search text"
-              onSearch={value => console.log(value)}
-              style={{ width: 150 }}
-            />
-          </Col> */}
-          <Col xs={0} sm={0} md={17} lg={18} xl={18} xxl={20}>
+          <Col xs={0} sm={0} md={19} lg={19} xl={19} xxl={20}>
             <Menu
               id="nav"
               onClick={this.handleClick}

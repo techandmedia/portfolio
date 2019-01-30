@@ -5,7 +5,7 @@ import TopNavigation from "./Navigation/TopNavigation";
 import CreateResponden from "./Form/CreateResponden";
 import UserDashboard from "./Dashboard/UserDashboard";
 import SignIn from "./Form/Signin";
-import AdminDashboard from "Dashboard/AdminDashboard";
+import AdminDashboard from "./Dashboard/AdminDashboard";
 // import AdminDashboard from "AdminDasboard";
 
 import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
@@ -15,16 +15,12 @@ import { getResponden, getRole } from "./Fetch/GetData";
 // import ModalDeletion from "./Basic/ModalDeletion";
 import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
-import "./App.css";
+import "./CSS/App.css";
+import "./CSS/ant-custom.css";
 // import Dashboard from "./Dashboard/UserDashboard";
 
 const URL =
   process.env.NODE_ENV === "production" ? Config.prodURL : Config.devURL;
-
-// if (process.env.NODE_ENV !== "production") {
-//   const { whyDidYouUpdate } = require("why-did-you-update");
-//   whyDidYouUpdate(React);
-// }
 
 class App extends React.Component {
   state = {
@@ -215,64 +211,86 @@ class App extends React.Component {
   render() {
     const { route, currentUser, isSignedIn } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
+    const { Header, Sider, Content, Footer } = Layout;
     // console.log(companies);
     // console.log(offices);
 
     return (
-      <Layout>
-        <TopNavigation
-          currentUser={currentUser}
-          onRouteChange={onRouteChange}
-          isSignedIn={isSignedIn}
-        />
-        <Row
-          type="flex"
-          justify="center"
-          style={{
-            // marginTop: "1em",
-            padding: "1em"
-          }}
-        >
-          {route === "admin-dashboard" ? (
-            <Col sm={{ span: 12, offset: 0 }}>
-              <AdminDashboard URL={URL} />
-            </Col>
-          ) : route === "admin" ? (
-            <SignIn
-              URL={URL}
-              loadUser={loadUser}
-              onRouteChange={onRouteChange}
-            />
-          ) : route === "dashboard" ? (
-            <Col sm={{ span: 24, offset: 0 }}>
-              <UserDashboard currentUser={currentUser} URL={URL} />
-            </Col>
-          ) : route === "home" ? (
-            <Col sm={{ span: 24, offset: 0 }}>
-              {/* <h1>Tes</h1> */}
-              <CreateResponden
-                URL={URL}
-                getUser={getUser}
-                getDataResponden={getDataResponden}
-              />
-            </Col>
-          ) : (
-            <Col sm={{ span: 24, offset: 0 }}>
-              {/* <h1>Tes</h1> */}
-              <CreateResponden
-                URL={URL}
-                getUser={getUser}
-                getDataResponden={getDataResponden}
-              />
-            </Col>
-          )}
-        </Row>
-        {/* <ModalDeletion
-          visible={visible}
-          handleModalOk={handleModalOk}
-          handleModalCancel={handleModalCancel}
-        /> */}
+      <Layout style={{ height: "100vh" }}>
+        <TopNavigation />
+        <Layout>
+          <Sider
+            breakpoint="md"
+            collapsedWidth="0"
+            onBreakpoint={broken => {
+              console.log(broken);
+            }}
+            onCollapse={(collapsed, type) => {
+              console.log(collapsed, type);
+            }}
+          >
+            Sider
+          </Sider>
+          <Layout>
+            <Content>Content</Content>
+            <Footer>Footer</Footer>
+          </Layout>
+        </Layout>
       </Layout>
+      // <Layout>
+      //   <TopNavigation
+      //     currentUser={currentUser}
+      //     onRouteChange={onRouteChange}
+      //     isSignedIn={isSignedIn}
+      //   />
+      //   <Row
+      //     type="flex"
+      //     justify="center"
+      //     style={{
+      //       // marginTop: "1em",
+      //       padding: "1em"
+      //     }}
+      //   >
+      //     {route === "admin-dashboard" ? (
+      //       <Col sm={{ span: 12, offset: 0 }}>
+      //         <AdminDashboard URL={URL} />
+      //       </Col>
+      //     ) : route === "admin" ? (
+      //       <SignIn
+      //         URL={URL}
+      //         loadUser={loadUser}
+      //         onRouteChange={onRouteChange}
+      //       />
+      //     ) : route === "dashboard" ? (
+      //       <Col sm={{ span: 24, offset: 0 }}>
+      //         <UserDashboard currentUser={currentUser} URL={URL} />
+      //       </Col>
+      //     ) : route === "home" ? (
+      //       <Col sm={{ span: 24, offset: 0 }}>
+      //         {/* <h1>Tes</h1> */}
+      //         <CreateResponden
+      //           URL={URL}
+      //           getUser={getUser}
+      //           getDataResponden={getDataResponden}
+      //         />
+      //       </Col>
+      //     ) : (
+      //       <Col sm={{ span: 24, offset: 0 }}>
+      //         {/* <h1>Tes</h1> */}
+      //         <CreateResponden
+      //           URL={URL}
+      //           getUser={getUser}
+      //           getDataResponden={getDataResponden}
+      //         />
+      //       </Col>
+      //     )}
+      //   </Row>
+      //   {/* <ModalDeletion
+      //     visible={visible}
+      //     handleModalOk={handleModalOk}
+      //     handleModalCancel={handleModalCancel}
+      //   /> */}
+      // </Layout>
     );
   }
 }
